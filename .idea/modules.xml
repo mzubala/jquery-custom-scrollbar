@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/jquery-scrollable.iml" filepath="$PROJECT_DIR$/.idea/jquery-scrollable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/jquery-custom-scrollbar.iml" filepath="$PROJECT_DIR$/.idea/jquery-custom-scrollbar.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,420 @@
+(function ($) {
+
+  $.fn.customScrollbar = function (options, args) {
+
+    Scrollable = function (element) {
+
+      this.init = function ($element, options) {
+        this.$element = $element;
+        this.$element.addClass("scrollable");
+        this.addScrollBarComponents();
+        this.vScrollbar = new Scrollbar(this, new VSizing());
+        this.hScrollbar = new Scrollbar(this, new HSizing())
+        this.$element.data("scrollable", this);
+      }
+
+      this.addScrollBarComponents = function () {
+        this.assignViewPort();
+        if (this.$viewPort.length == 0) {
+          this.$element.wrapInner("<div class=\"view-port\" />")
+          this.assignViewPort();
+        }
+        this.assignOverview();
+        if (this.$overview.length == 0) {
+          this.$viewPort.wrapInner("<div class=\"overview\" />")
+          this.assignOverview();
+        }
+        this.addScrollBar("vertical", "prepend");
+        this.addScrollBar("horizontal", "append");
+      }
+
+      this.assignViewPort = function () {
+        this.$viewPort = this.$element.find(".view-port");
+      }
+
+      this.assignOverview = function () {
+        this.$overview = this.$viewPort.find(".overview");
+      }
+
+      this.addScrollBar = function (orientation, fun) {
+        if (this.$element.find(".scroll-bar." + orientation).length == 0)
+          this.$element[fun]("<div class='scroll-bar " + orientation + "'><div class='thumb'></div></div>")
+      }
+
+      this.resize = function () {
+        this.vScrollbar.resize();
+        this.hScrollbar.resize();
+      }
+
+      this.scrollTo = function (element) {
+        var $element = $(element);
+        var elementOffset = $(element).offset();
+        var viewPortOffset = this.$viewPort.offset();
+        if(elementOffset.top >= viewPortOffset.top && elementOffset.left >= viewPortOffset.left && elementOffset.top + $(e));
+      }
+
+      this.init(element);
+
+    }
+
+    Scrollbar = function (scrollable, sizing) {
+
+      this.init = function (scrollable, sizing) {
+        this.scrollable = scrollable;
+        this.sizing = sizing
+        this.$scrollBar = this.sizing.scrollBar(this.scrollable.$element);
+        this.$thumb = this.$scrollBar.find(".thumb");
+        this.resize();
+        this.initMouseMoveScrolling();
+        this.initMouseWheelScrolling();
+        this.initMouseClickScrolling();
+        this.initKeyboardScrolling();
+        this.initWindowResize();
+      }
+
+      this.resize = function () {
+        this.scrollable.$viewPort.height(this.scrollable.$element.height());
+        this.sizing.size(this.scrollable.$viewPort, this.sizing.size(this.scrollable.$element));
+        this.viewPortSize = this.sizing.size(this.scrollable.$viewPort);
+        this.overviewSize = this.sizing.size(this.scrollable.$overview);
+        this.ratio = this.viewPortSize / this.overviewSize;
+        this.sizing.size(this.$scrollBar, this.viewPortSize);
+        this.thumbSize = Math.round(this.ratio * this.viewPortSize);
+        this.sizing.size(this.$thumb, this.thumbSize);
+        this.maxThumbPosition = this.calculateMaxThumbPosition();
+        this.maxOverviewPosition = this.calculateMaxOverviewPosition();
+        if (this.scrollPercent === undefined)
+          this.scrollPercent = 0.0;
+        this.rescroll();
+        this.$scrollBar.toggle(this.overviewSize > this.viewPortSize);
+      }
+
+      this.initMouseMoveScrolling = function () {
+        var _this = this;
+        this.$thumb.mousedown(function (event) {
+          _this.startMouseMoveScrolling(event);
+        });
+        $(document).mouseup(function (event) {
+          _this.stopMouseMoveScrolling(event);
+        });
+        $(document).mousemove(function (event) {
+          _this.mouseMoveScroll(event);
+        });
+        this.$thumb.click(function (event) {
+          event.stopPropagation();
+        });
+      }
+
+      this.initMouseWheelScrolling = function () {
+        var _this = this;
+        this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
+          _this.mouseWheelScroll(deltaX, deltaY);
+          event.preventDefault();
+        });
+      }
+
+      this.initMouseClickScrolling = function () {
+        var _this = this;
+        this.$scrollBar.click(function (event) {
+          _this.mouseClickScroll(event);
+        })
+      }
+
+      this.initKeyboardScrolling = function () {
+        var _this = this;
+        $(document).keydown(function (event) {
+          if (_this.isMouseOver()) {
+            var keyDown = event.which;
+            if (_this.isKeyScrolling(keyDown))
+              _this.startKeyScrolling(keyDown);
+          }
+        });
+        $(document).mousemove(function (event) {
+          _this.lastMouseEvent = event;
+        });
+      }
+
+      this.initWindowResize = function () {
+        var _this = this;
+        $(window).resize(function () {
+          _this.resize();
+        });
+      }
+
+      this.isKeyScrolling = function (key) {
+        return this.keyScrollDelta(key) != null;
+      }
+
+      this.keyScrollDelta = function (key) {
+        for (var scrollingKey in this.sizing.scrollingKeys)
+          if (scrollingKey == key)
+            return this.sizing.scrollingKeys[key](this.viewPortSize);
+        return null;
+      }
+
+      this.isMouseOver = function () {
+        var offset = this.scrollable.$element.offset();
+        var w = this.scrollable.$element.width();
+        var h = this.scrollable.$element.height();
+        return this.lastMouseEvent &&
+          (this.lastMouseEvent.pageX >= offset.left) && (this.lastMouseEvent.pageX <= offset.left + w) &&
+          (this.lastMouseEvent.pageY >= offset.top) && (this.lastMouseEvent.pageY <= offset.top + h);
+      }
+
+      this.startMouseMoveScrolling = function (event) {
+        this.mouseMoveScrolling = true;
+        $("html").addClass("not-selectable");
+        this.setMouseEvent(event);
+      }
+
+      this.stopMouseMoveScrolling = function (event) {
+        this.mouseMoveScrolling = false;
+        $("html").removeClass("not-selectable");
+      }
+
+      this.mouseMoveScroll = function (event) {
+        if (this.mouseMoveScrolling) {
+          var delta = this.sizing.mouseDelta(this.mouseEvent, event);
+          this.scrollBy(Math.round(delta * this.overviewSize / this.viewPortSize));
+          this.setMouseEvent(event);
+        }
+      }
+
+      this.mouseWheelScroll = function (deltaX, deltaY) {
+        var delta = this.sizing.wheelDelta(deltaX, deltaY) * -10;
+        if (delta != 0)
+          this.scrollBy(delta);
+      }
+
+      this.mouseClickScroll = function (event) {
+        var delta = this.viewPortSize - 20;
+        if (event["page" + this.sizing.scrollAxis()] < this.$thumb.offset()[this.sizing.offsetComponent()])
+        // mouse click over thumb
+          delta = -delta;
+        this.scrollBy(delta);
+      }
+
+      this.startKeyScrolling = function (keyDown) {
+        this.scrollBy(this.keyScrollDelta(keyDown));
+      }
+
+      this.scrollBy = function (delta) {
+        var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
+        overviewPosition += delta;
+        if (overviewPosition < 0)
+          overviewPosition = 0;
+        if (overviewPosition > this.maxOverviewPosition)
+          overviewPosition = this.maxOverviewPosition;
+        this.scrollPercent = overviewPosition / this.maxOverviewPosition;
+        var thumbPosition = this.scrollPercent * this.maxThumbPosition;
+        this.setScrollPosition(overviewPosition, thumbPosition);
+      }
+
+      this.rescroll = function () {
+        if (this.scrollPercent != 0.0) {
+          var thumbPosition = this.scrollPercent * this.maxThumbPosition;
+          var overviewPosition = this.scrollPercent * this.maxOverviewPosition;
+          this.setScrollPosition(overviewPosition, thumbPosition);
+        }
+      }
+
+      this.setScrollPosition = function (overviewPosition, thumbPosition) {
+        this.$thumb.css(this.sizing.offsetComponent(), thumbPosition + "px");
+        this.scrollable.$overview.css(this.sizing.offsetComponent(), -overviewPosition + "px");
+      }
+
+      this.calculateMaxThumbPosition = function () {
+        return this.sizing.size(this.$scrollBar) - this.thumbSize;
+      }
+
+      this.calculateMaxOverviewPosition = function () {
+        return this.sizing.size(this.scrollable.$overview) - this.sizing.size(this.scrollable.$viewPort);
+      }
+
+      this.setMouseEvent = function (event) {
+        this.mouseEvent = event;
+      }
+
+      this.init(scrollable, sizing)
+
+    }
+
+    HSizing = function () {
+
+      this.size = function ($el, arg) {
+        if (arg)
+          return $el.width(arg);
+        else
+          return $el.width();
+      }
+
+      this.scrollBar = function ($el) {
+        return $el.find(".scroll-bar.horizontal");
+      }
+
+      this.mouseDelta = function (event1, event2) {
+        return event2.pageX - event1.pageX;
+      }
+
+      this.offsetComponent = function () {
+        return "left";
+      }
+
+      this.wheelDelta = function (deltaX, deltaY) {
+        return deltaX;
+      }
+
+      this.scrollAxis = function () {
+        return "X";
+      }
+
+      this.scrollingKeys = {
+        37:function (viewPortSize) {
+          return -10; //arrow left
+        },
+        39:function (viewPortSize) {
+          return 10; //arrow right
+        }
+      }
+
+    }
+
+    VSizing = function () {
+
+      this.size = function ($el, arg) {
+        if (arg)
+          return $el.height(arg);
+        else
+          return $el.height();
+      }
+
+      this.scrollBar = function ($el) {
+        return $el.find(".scroll-bar.vertical");
+      }
+
+      this.mouseDelta = function (event1, event2) {
+        return event2.pageY - event1.pageY;
+      }
+
+      this.offsetComponent = function () {
+        return "top";
+      }
+
+      this.wheelDelta = function (deltaX, deltaY) {
+        return deltaY;
+      }
+
+      this.scrollAxis = function () {
+        return "Y";
+      }
+
+      this.scrollingKeys = {
+        38:function (viewPortSize) {
+          return -10; //arrow up
+        },
+        40:function (viewPortSize) {
+          return 10; //arrow down
+        },
+        33:function (viewPortSize) {
+          return -(viewPortSize - 20); //page up
+        },
+        34:function (viewPortSize) {
+          return viewPortSize - 20; //page down
+        }
+      }
+
+    }
+
+    return this.each(function () {
+      if (options && typeof(options) == "string") {
+        var scrollable = $(this).data("scrollable");
+        scrollable[options](args);
+      }
+      else
+        new Scrollable($(this), options);
+    });
+
+  };
+
+})(jQuery);
+
+(function ($) {
+
+  var types = ['DOMMouseScroll', 'mousewheel'];
+
+  if ($.event.fixHooks) {
+    for (var i = types.length; i;) {
+      $.event.fixHooks[ types[--i] ] = $.event.mouseHooks;
+    }
+  }
+
+  $.event.special.mousewheel = {
+    setup:function () {
+      if (this.addEventListener) {
+        for (var i = types.length; i;) {
+          this.addEventListener(types[--i], handler, false);
+        }
+      } else {
+        this.onmousewheel = handler;
+      }
+    },
+
+    teardown:function () {
+      if (this.removeEventListener) {
+        for (var i = types.length; i;) {
+          this.removeEventListener(types[--i], handler, false);
+        }
+      } else {
+        this.onmousewheel = null;
+      }
+    }
+  };
+
+  $.fn.extend({
+    mousewheel:function (fn) {
+      return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
+    },
+
+    unmousewheel:function (fn) {
+      return this.unbind("mousewheel", fn);
+    }
+  });
+
+
+  function handler(event) {
+    var orgEvent = event || window.event, args = [].slice.call(arguments, 1), delta = 0, returnValue = true, deltaX = 0, deltaY = 0;
+    event = $.event.fix(orgEvent);
+    event.type = "mousewheel";
+
+    // Old school scrollwheel delta
+    if (orgEvent.wheelDelta) {
+      delta = orgEvent.wheelDelta / 120;
+    }
+    if (orgEvent.detail) {
+      delta = -orgEvent.detail / 3;
+    }
+
+    // New school multidimensional scroll (touchpads) deltas
+    deltaY = delta;
+
+    // Gecko
+    if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
+      deltaY = 0;
+      deltaX = -1 * delta;
+    }
+
+    // Webkit
+    if (orgEvent.wheelDeltaY !== undefined) {
+      deltaY = orgEvent.wheelDeltaY / 120;
+    }
+    if (orgEvent.wheelDeltaX !== undefined) {
+      deltaX = -1 * orgEvent.wheelDeltaX / 120;
+    }
+
+    // Add event and delta to the front of the arguments
+    args.unshift(event, delta, deltaX, deltaY);
+
+    return ($.event.dispatch || $.event.handle).apply(this, args);
+  }
+
+})(jQuery);

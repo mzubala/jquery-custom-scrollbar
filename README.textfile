@@ -1,0 +1,74 @@
+.h1 jQuery Custom Scrollbar
+
+jQuery Custom Scrollbar is a jQuery plugin that lets you add fully customizable scrollbars to your sites. With the plugin
+you can apply any css styles you want to your scrollbars.
+
+.h2 Features
+
+* vertical and horizontal scrollbars you can style your own way
+* a couple predefined skins showing you how to style scrollbars
+* scrolling by mouse dragging, mouse wheel, keyboard - just as you would with native browser scrollbar
+* simple api that lets you scroll programmatically
+
+.h2 Requirements
+
+The plugin supports all major browsers: Chrome, Firefox, IE 7+.
+
+To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and later versions).
+
+.h2 Basic Usage
+
+First download and add jquery.custom-scrollbar.min.js and jquery.custom-scrollbar.css to your site.
+
+Suppose you have a container on your site with some lengthy content and you want to make it scrollable:
+
+<pre><code>
+
+<div class="container">
+  <!-- Some lengthy content -->
+</div>
+
+</code></pre>
+
+Define it's width and height (below some example size is used):
+
+<pre><code>
+
+.container {
+  width: 300px;
+  height: 400px;
+}
+
+</pre></code>
+
+Add a skin class you want to use to your container:
+
+<pre><code>
+<div class="container default-skin">
+  <!-- Some lengthy content -->
+</div>
+</pre></code>
+
+Finally call this js code:
+
+<pre><code>
+
+$(document).ready(function() {
+  $(".container").customScrollbar();
+});
+
+</pre></code>
+
+If container content does not fit in those sizes scrollbar will appear.
+
+The above method will add vertical scrollbar. If you also want to add horizontal scrollbar, there is one more css step required:
+
+<pre><code>
+
+.container .overview {
+  width: 1000px;
+}
+
+</pre></code>
+
+This defines total width of the scrolled content (not just the width of the visible part as in previous step).

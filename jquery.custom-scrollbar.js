@@ -9,7 +9,7 @@
         this.$element.addClass("scrollable");
         this.addScrollBarComponents();
         this.vScrollbar = new Scrollbar(this, new VSizing());
-        this.hScrollbar = new Scrollbar(this, new HSizing())
+        this.hScrollbar = new Scrollbar(this, new HSizing());
         this.$element.data("scrollable", this);
       }
 
@@ -104,13 +104,15 @@
         if (this.scrollPercent === undefined)
           this.scrollPercent = 0.0;
         this.rescroll();
-        this.$scrollBar.toggle(this.overviewSize > this.viewPortSize);
+        this.enabled = (this.overviewSize > this.viewPortSize);
+        this.$scrollBar.toggle(this.enabled);
       }
 
       this.initMouseMoveScrolling = function () {
         var _this = this;
         this.$thumb.mousedown(function (event) {
-          _this.startMouseMoveScrolling(event);
+          if (_this.enabled)
+            _this.startMouseMoveScrolling(event);
         });
         $(document).mouseup(function (event) {
           _this.stopMouseMoveScrolling(event);
@@ -126,8 +128,10 @@
       this.initMouseWheelScrolling = function () {
         var _this = this;
         this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
-          _this.mouseWheelScroll(deltaX, deltaY);
-          event.preventDefault();
+          if (_this.enabled) {
+            _this.mouseWheelScroll(deltaX, deltaY);
+            event.preventDefault();
+          }
         });
       }
 
@@ -141,7 +145,7 @@
       this.initKeyboardScrolling = function () {
         var _this = this;
         $(document).keydown(function (event) {
-          if (_this.isMouseOver()) {
+          if (_this.enabled && _this.isMouseOver()) {
             var keyDown = event.which;
             if (_this.isKeyScrolling(keyDown))
               _this.startKeyScrolling(keyDown);
@@ -182,12 +186,21 @@
       this.startMouseMoveScrolling = function (event) {
         this.mouseMoveScrolling = true;
         $("html").addClass("not-selectable");
+        this.setUnselectable($("html"), "on");
         this.setMouseEvent(event);
       }
 
       this.stopMouseMoveScrolling = function (event) {
         this.mouseMoveScrolling = false;
         $("html").removeClass("not-selectable");
+        this.setUnselectable($("html"), null);
+      }
+
+      this.setUnselectable = function (element, value) {
+        if (element.attr("unselectable") != value) {
+          element.attr("unselectable", value);
+          element.find(':not(input)').attr('unselectable', value);
+        }
       }
 
       this.mouseMoveScroll = function (event) {

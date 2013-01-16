@@ -1,22 +1,22 @@
-.h1 jQuery Custom Scrollbar
+h1. jQuery Custom Scrollbar
 
 jQuery Custom Scrollbar is a jQuery plugin that lets you add fully customizable scrollbars to your sites. With the plugin
 you can apply any css styles you want to your scrollbars.
 
-.h2 Features
+h2. Features
 
 * vertical and horizontal scrollbars you can style your own way
 * a couple predefined skins showing you how to style scrollbars
 * scrolling by mouse dragging, mouse wheel, keyboard - just as you would with native browser scrollbar
 * simple api that lets you scroll programmatically
 
-.h2 Requirements
+h2. Requirements
 
 The plugin supports all major browsers: Chrome, Firefox, IE 7+.
 
 To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and later versions).
 
-.h2 Basic Usage
+h2. Basic Usage
 
 First download and add jquery.custom-scrollbar.min.js and jquery.custom-scrollbar.css to your site.
 

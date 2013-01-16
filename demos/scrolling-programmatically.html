@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JQuery Custom Scrollbar - basic usage demo</title>
+    <title>JQuery Custom Scrollbar - scrolling programmatically</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script src="../jquery.custom-scrollbar.js"></script>
     <link type="text/css" rel="stylesheet" href="../jquery.custom-scrollbar.css"/>
@@ -46,12 +46,11 @@
 </head>
 <body>
 
-<h1>JQuery Custom Scrollbar - programatic scrolling</h1>
+<h1>JQuery Custom Scrollbar - scrolling programmatically</h1>
 
+<h2>Use buttons below to scroll programmatically to an element inside scrolled div</h2>
 
-<h2>Scroll to some element inside scrolled div</h2>
-
-<p><button>Click to scroll</button></p>
+<h2>Vertical scrollbar</h2>
 
 <!-- Add a skin class to the scrolled div: gray-skin in this case -->
 <div id="vertical-scrollbar-demo" class="gray-skin demo">
@@ -74,6 +73,10 @@
     interdum massa nibh nec erat.
 </div>
 
+<p>
+    <button id="scroll-button1">Click to scroll</button>
+</p>
+
 <h2>Horizontal scrollbar</h2>
 
 <div id="horizontal-scrollbar-demo" class="default-skin demo">
@@ -82,12 +85,21 @@
     <img src="images/lena.png" alt="lena"/>
     <img src="images/lena.png" alt="lena"/>
     <img src="images/lena.png" alt="lena"/>
-    <img src="images/lena.png" alt="lena"/>
+
+    <div id="no-lena"
+         style="display: inline-block; width: 180px; height: 180px; line-height: 180px; vertical-align: top; text-align: center">
+        <span style="vertical-align: middle">No Lena ;(</span>
+    </div>
     <img src="images/lena.png" alt="lena"/>
     <img src="images/lena.png" alt="lena"/>
     <img src="images/lena.png" alt="lena"/>
     <img src="images/lena.png" alt="lena"/>
 </div>
+
+<p>
+    <button id="scroll-button2">Click to scroll</button>
+</p>
+
 
 <h2>Vertical and horizontal scrollbar</h2>
 
@@ -105,7 +117,7 @@
     nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
     in
     interdum massa nibh nec erat.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    Lorem ipsum dolor sit amet, consectetur adipisicing <strong>elit</strong>. Proin nibh augue, suscipit a, scelerisque sed,
     lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
     Quisque
     semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
@@ -119,9 +131,22 @@
     interdum massa nibh nec erat.
 </div>
 
+<p>
+    <button id="scroll-button3">Click to scroll</button>
+</p>
+
 <script type="text/javascript">
     $(window).load(function () {
         $(".demo").customScrollbar();
+        $("#scroll-button1").click(function () {
+            $("#vertical-scrollbar-demo").customScrollbar("scrollTo", $("#vertical-scrollbar-demo p"));
+        });
+        $("#scroll-button2").click(function () {
+            $("#horizontal-scrollbar-demo").customScrollbar("scrollTo", $("#horizontal-scrollbar-demo #no-lena"));
+        });
+        $("#scroll-button3").click(function () {
+            $("#vertical-horizontal-scrollbar-demo").customScrollbar("scrollTo", $("#vertical-horizontal-scrollbar-demo strong"));
+        });
     });
 </script>
 </body>

@@ -16,7 +16,7 @@
       this.addScrollBarComponents = function () {
         this.assignViewPort();
         if (this.$viewPort.length == 0) {
-          this.$element.wrapInner("<div class=\"view-port\" />")
+          this.$element.wrapInner("<div class=\"viewport\" />")
           this.assignViewPort();
         }
         this.assignOverview();
@@ -29,7 +29,7 @@
       }
 
       this.assignViewPort = function () {
-        this.$viewPort = this.$element.find(".view-port");
+        this.$viewPort = this.$element.find(".viewport");
       }
 
       this.assignOverview = function () {
@@ -48,10 +48,28 @@
 
       this.scrollTo = function (element) {
         var $element = $(element);
-        var elementOffset = $(element).offset();
-        var viewPortOffset = this.$viewPort.offset();
-        if(elementOffset.top >= viewPortOffset.top && elementOffset.left >= viewPortOffset.left && elementOffset.top + $(e));
+        if (this.isInside(element, this.$overview) && !this.isInside(element, this.$viewPort)) {
+          var elementOffset = $element.offset();
+          var overviewOffset = this.$overview.offset();
+          this.scrollToXY(elementOffset.left - overviewOffset.left, elementOffset.top - overviewOffset.top);
+        }
       }
+
+      this.scrollToXY = function (x, y) {
+        this.hScrollbar.scrollTo(x);
+        this.vScrollbar.scrollTo(y);
+      }
+
+      this.isInside = function (element, wrappingElement) {
+        var $element = $(element);
+        var $wrappingElement = $(wrappingElement);
+        var elementOffset = $element.offset();
+        var wrappingElementOffset = this.$overview.offset();
+        return (elementOffset.top >= wrappingElementOffset.top) && (elementOffset.left >= wrappingElementOffset.left) &&
+          (elementOffset.top + $element.height() <= wrappingElementOffset.top + $wrappingElement.height()) &&
+          (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width());
+      }
+
 
       this.init(element);
 
@@ -201,6 +219,10 @@
       this.scrollBy = function (delta) {
         var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
         overviewPosition += delta;
+        this.scrollTo(overviewPosition);
+      }
+
+      this.scrollTo = function (overviewPosition) {
         if (overviewPosition < 0)
           overviewPosition = 0;
         if (overviewPosition > this.maxOverviewPosition)

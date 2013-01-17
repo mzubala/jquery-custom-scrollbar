@@ -60,6 +60,14 @@
         this.vScrollbar.scrollTo(y);
       }
 
+      this.scrollToX = function(x) {
+        this.hScrollbar.scrollTo(x);
+      }
+
+      this.scrollToY = function(y) {
+        this.vScrollbar.scrollTo(y);
+      }
+
       this.isInside = function (element, wrappingElement) {
         var $element = $(element);
         var $wrappingElement = $(wrappingElement);

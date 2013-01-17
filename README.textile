@@ -16,29 +16,29 @@ The plugin supports all major browsers: Chrome, Firefox, IE 7+.
 
 To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and later versions).
 
+h2. Demos
+
+In <pre>demos</pre> folder of this repo, there are some example usages of custom scrollbar and it's api.
+
 h2. Basic Usage
 
-First download and add jquery.custom-scrollbar.min.js and jquery.custom-scrollbar.css to your site.
+First download and add <pre>jquery.custom-scrollbar.min.js</pre> and <pre>jquery.custom-scrollbar.css</pre> to your site.
 
 Suppose you have a container on your site with some lengthy content and you want to make it scrollable:
 
 <pre><code>
-
 <div class="container">
   <!-- Some lengthy content -->
 </div>
-
 </code></pre>
 
 Define it's width and height (below some example size is used):
 
 <pre><code>
-
 .container {
   width: 300px;
   height: 400px;
 }
-
 </pre></code>
 
 Add a skin class you want to use to your container:
@@ -49,14 +49,15 @@ Add a skin class you want to use to your container:
 </div>
 </pre></code>
 
+In the example we use <pre>default-skin</pre>. Plugin comes with two other predefined skins: <pre>gray-skin</pre> and <pre>modern-skin</pre>.
+You are not limited to that and can style scrollbar your own way.
+
 Finally call this js code:
 
 <pre><code>
-
 $(document).ready(function() {
   $(".container").customScrollbar();
 });
-
 </pre></code>
 
 If container content does not fit in those sizes scrollbar will appear.
@@ -64,11 +65,46 @@ If container content does not fit in those sizes scrollbar will appear.
 The above method will add vertical scrollbar. If you also want to add horizontal scrollbar, there is one more css step required:
 
 <pre><code>
-
 .container .overview {
   width: 1000px;
 }
-
 </pre></code>
 
 This defines total width of the scrolled content (not just the width of the visible part as in previous step).
+
+h2. API
+
+There are some methods of the plugin you may want to call.
+
+h3. scrollTo(element)
+
+Scrolls viewport to a given element inside scrolled content. An element might be jQuery object or a selector string. Example usage:
+
+<pre><code>
+$(".container").customScrollbar("scrollTo", "#some-element-inside-container")
+</pre></code>
+
+h3. scrollToX(x)
+
+Sets horizontal scrollbar position to <pre>x</pre> pixels. <pre>x</pre> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end.
+
+<pre><code>
+$(".container").customScrollbar("scrollToX", 100)
+</pre></code>
+
+h3. scrollToY(y)
+
+Sets vertical scrollbar position to <pre>y</pre> pixels. <pre>x</pre> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end.
+
+<pre><code>
+$(".container").customScrollbar("scrollToY", 200)
+</pre></code>
+
+h3. resize()
+
+Recalculates and sets sizes of all scrollbar components. Call this whenever your scrolled block changes its size and
+scrollbar becomes invalid. After you call it scrollbar is adjusted to new sizes of your block.
+
+<pre><code>
+$(".container").customScrollbar("resize")
+</pre></code>

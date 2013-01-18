@@ -22,11 +22,11 @@ You can download the latest version "here":https://github.com/mzubala/jquery-cus
 
 h2. Demos
 
-In <pre>demos</pre> folder of this repo, there are some example usages of custom scrollbar and it's api.
+In <code>demos</code> folder of this repo, there are some example usages of custom scrollbar and its api.
 
 h2. Basic Usage
 
-First download and add <pre>jquery.custom-scrollbar.min.js</pre> and <pre>jquery.custom-scrollbar.css</pre> to your site.
+First download and add <code>jquery.custom-scrollbar.js</code> and <code>jquery.custom-scrollbar.css</code> to your site.
 
 Suppose you have a container on your site with some lengthy content and you want to make it scrollable:
 
@@ -45,7 +45,7 @@ Define it's width and height (below some example size is used):
 }
 </pre></code>
 
-Add a skin class you want to use to your container:
+Add a skin class to your container:
 
 <pre><code>
 <div class="container default-skin">
@@ -53,7 +53,7 @@ Add a skin class you want to use to your container:
 </div>
 </pre></code>
 
-In the example we use <pre>default-skin</pre>. Plugin comes with two other predefined skins: <pre>gray-skin</pre> and <pre>modern-skin</pre>.
+In the example we use <code>default-skin</code>. Plugin comes with two other predefined skins: <code>gray-skin</code> and <code>modern-skin</code>.
 You are not limited to that and can style scrollbar your own way.
 
 Finally call this js code:
@@ -66,7 +66,7 @@ $(document).ready(function() {
 
 If container content does not fit in those sizes scrollbar will appear.
 
-The above method will add vertical scrollbar. If you also want to add horizontal scrollbar, there is one more css step required:
+The above method will add vertical scrollbar only. If you also want to add horizontal scrollbar, there is one more css step required:
 
 <pre><code>
 .container .overview {
@@ -74,7 +74,7 @@ The above method will add vertical scrollbar. If you also want to add horizontal
 }
 </pre></code>
 
-This defines total width of the scrolled content (not just the width of the visible part as in previous step).
+This defines example total width of the scrolled content (not just the width of the visible part as in previous step).
 
 h2. API
 
@@ -90,7 +90,7 @@ $(".container").customScrollbar("scrollTo", "#some-element-inside-container")
 
 h3. scrollToX(x)
 
-Sets horizontal scrollbar position to <pre>x</pre> pixels. <pre>x</pre> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end.
+Sets horizontal scrollbar position to <code>x</code> pixels. <code>x</code> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end.
 
 <pre><code>
 $(".container").customScrollbar("scrollToX", 100)
@@ -98,7 +98,7 @@ $(".container").customScrollbar("scrollToX", 100)
 
 h3. scrollToY(y)
 
-Sets vertical scrollbar position to <pre>y</pre> pixels. <pre>x</pre> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end.
+Sets vertical scrollbar position to <code>y</code> pixels. <code>x</code> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end.
 
 <pre><code>
 $(".container").customScrollbar("scrollToY", 200)

@@ -1,0 +1,29 @@
+{
+  "name":"custom-scrollbar",
+  "version":"1.0",
+  "title":"jQuery Custom Scrollbar",
+  "author":"Maciej Zubala",
+  "licenses":[
+    {
+      "type":"MIT",
+      "url":"http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "docs":"https://github.com/mzubala/jquery-custom-scrollbar",
+  "download":"https://github.com/mzubala/jquery-custom-scrollbar",
+  "dependencies":{
+    "jquery":">=1.4"
+  },
+
+  "description":"jQuery Custom Scrollbar is a plugin that lets you add fully customizable scrollbars to your sites instead of browser's default scrollbars. When using the plugin you can apply any css styles you want to your scrollbars. Features include: vertical and horizontal scrollbars you can style your own way, a couple predefined skins showing you how to style scrollbars, scrolling by mouse dragging, mouse wheel, keyboard – just as you would with native browser scrollbar, simple api that lets you scroll programmatically.",
+  "keywords":["ui", "scroll", "scrollbar"],
+  "homepage":"https://github.com/mzubala/jquery-custom-scrollbar",
+  "bugs":"https://github.com/mzubala/jquery-custom-scrollbar/issues",
+  "maintainers":[
+    {
+      "name":"Maciej Zubala",
+      "email":"maciej.zubala@rocketmind.pl",
+      "url":"http://barnyrubble.tumblr.com/"
+    }
+  ]
+}

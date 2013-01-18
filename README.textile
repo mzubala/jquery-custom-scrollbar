@@ -24,7 +24,7 @@ h2. Demos
 
 In <code>demos</code> folder of this repo, there are some example usages of custom scrollbar and its api.
 
-h2. Basic Usage
+h2. Usage
 
 First download and add <code>jquery.custom-scrollbar.js</code> and <code>jquery.custom-scrollbar.css</code> to your site.
 

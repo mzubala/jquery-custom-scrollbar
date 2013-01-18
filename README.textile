@@ -16,6 +16,10 @@ The plugin supports all major browsers: Chrome, Firefox, IE 7+.
 
 To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and later versions).
 
+h2. Download
+
+You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/blob/master/build/jquert-custom-scrollbar-1.0.zip
+
 h2. Demos
 
 In <pre>demos</pre> folder of this repo, there are some example usages of custom scrollbar and it's api.

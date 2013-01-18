@@ -18,7 +18,7 @@ To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and la
 
 h2. Download
 
-You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/blob/master/build/jquert-custom-scrollbar-1.0.zip
+You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/blob/master/build/jquery-custom-scrollbar-1.0.zip
 
 h2. Demos
 

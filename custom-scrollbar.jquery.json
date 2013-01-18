@@ -19,11 +19,12 @@
   "keywords":["ui", "scroll", "scrollbar"],
   "homepage":"https://github.com/mzubala/jquery-custom-scrollbar",
   "bugs":"https://github.com/mzubala/jquery-custom-scrollbar/issues",
+  "demo":"http://jquery-custom-scrollbar.rocketmind.pl/demos",
   "maintainers":[
     {
       "name":"Maciej Zubala",
       "email":"maciej.zubala@rocketmind.pl",
-      "url":"http://barnyrubble.tumblr.com/"
+      "url":"http://rocketmind.pl/"
     }
   ]
 }

@@ -60,11 +60,11 @@
         this.vScrollbar.scrollTo(y);
       }
 
-      this.scrollToX = function(x) {
+      this.scrollToX = function (x) {
         this.hScrollbar.scrollTo(x);
       }
 
-      this.scrollToY = function(y) {
+      this.scrollToY = function (y) {
         this.vScrollbar.scrollTo(y);
       }
 
@@ -77,7 +77,6 @@
           (elementOffset.top + $element.height() <= wrappingElementOffset.top + $wrappingElement.height()) &&
           (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width());
       }
-
 
       this.init(element);
 
@@ -93,6 +92,7 @@
         this.resize();
         this.initMouseMoveScrolling();
         this.initMouseWheelScrolling();
+        this.initTouchScrolling();
         this.initMouseClickScrolling();
         this.initKeyboardScrolling();
         this.initWindowResize();
@@ -141,6 +141,22 @@
             event.preventDefault();
           }
         });
+      }
+
+      this.initTouchScrolling = function () {
+        if (document.addEventListener) {
+          var _this = this;
+          this.scrollable.$element[0].addEventListener("touchstart", function (event) {
+            if (_this.enabled)
+              _this.startTouchScrolling(event);
+          });
+          document.addEventListener("touchmove", function (event) {
+            _this.touchScroll(event);
+          });
+          this.scrollable.$element[0].addEventListener("touchend", function (event) {
+            _this.stopTouchScrolling(event);
+          });
+        }
       }
 
       this.initMouseClickScrolling = function () {
@@ -195,7 +211,7 @@
         this.mouseMoveScrolling = true;
         $("html").addClass("not-selectable");
         this.setUnselectable($("html"), "on");
-        this.setMouseEvent(event);
+        this.setScrollEvent(event);
       }
 
       this.stopMouseMoveScrolling = function (event) {
@@ -212,11 +228,34 @@
       }
 
       this.mouseMoveScroll = function (event) {
-        if (this.mouseMoveScrolling) {
-          var delta = this.sizing.mouseDelta(this.mouseEvent, event);
-          this.scrollBy(Math.round(delta * this.overviewSize / this.viewPortSize));
-          this.setMouseEvent(event);
+        if (this.mouseMoveScrolling)
+          this.moveScroll(event, 1);
+      }
+
+      this.moveScroll = function (event, turn) {
+        var delta = this.sizing.mouseDelta(this.scrollEvent, event) * turn;
+        this.scrollBy(Math.round(delta * this.overviewSize / this.viewPortSize));
+        this.setScrollEvent(event);
+      }
+
+      this.startTouchScrolling = function (event) {
+        if (event.touches && event.touches.length > 0) {
+          this.setScrollEvent(event.touches[0]);
+          this.touchScrolling = true;
+          event.preventDefault();
         }
+      }
+
+      this.touchScroll = function (event) {
+        if (this.touchScrolling && event.touches && event.touches.length > 0) {
+          this.moveScroll(event.touches[0], -1);
+          event.preventDefault();
+        }
+      }
+
+      this.stopTouchScrolling = function (event) {
+        this.touchScrolling = false;
+        event.preventDefault();
       }
 
       this.mouseWheelScroll = function (deltaX, deltaY) {
@@ -274,8 +313,10 @@
         return this.sizing.size(this.scrollable.$overview) - this.sizing.size(this.scrollable.$viewPort);
       }
 
-      this.setMouseEvent = function (event) {
-        this.mouseEvent = event;
+      this.setScrollEvent = function (event) {
+        var attr = "page" + this.sizing.scrollAxis();
+        if (!this.scrollEvent || this.scrollEvent[attr] != event[attr])
+          this.scrollEvent = {pageX:event.pageX, pageY:event.pageY};
       }
 
       this.init(scrollable, sizing)
@@ -379,7 +420,8 @@
 
   };
 
-})(jQuery);
+})
+  (jQuery);
 
 (function ($) {
 

@@ -6,8 +6,9 @@ you can apply any css styles you want to your scrollbars.
 h2. Features
 
 * vertical and horizontal scrollbars you can style your own way
-* a couple predefined skins showing you how to style scrollbars
 * scrolling by mouse dragging, mouse wheel, keyboard - just as you would with native browser scrollbar
+* touch scrolling on mobile devices (Android, iPhone and iPad)
+* a couple predefined skins showing you how to style scrollbars
 * simple api that lets you scroll programmatically
 
 h2. Requirements
@@ -18,7 +19,7 @@ To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and la
 
 h2. Download
 
-You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/raw/master/build/jquery-custom-scrollbar-0.1.0.zip
+You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/raw/master/build/jquery-custom-scrollbar-0.2.0.zip
 
 h2. Demos
 

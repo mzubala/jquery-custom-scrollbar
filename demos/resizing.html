@@ -68,9 +68,16 @@
 
     <img src="images/lena.png">
 
+    <p>
+        <button>Click me!</button>
+    </p>
+
     <script type="text/javascript">
         $(window).load(function () {
             $(".container").customScrollbar();
+            $("button").click(function () {
+                alert("button clicked");
+            })
         });
     </script>
 </div>

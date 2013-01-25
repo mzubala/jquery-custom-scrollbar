@@ -11,6 +11,10 @@
         this.vScrollbar = new Scrollbar(this, new VSizing());
         this.hScrollbar = new Scrollbar(this, new HSizing());
         this.$element.data("scrollable", this);
+        if (window.jQueryCustomScrollbars == undefined)
+          window.jQueryCustomScrollbars = [];
+        this.addToScrollbarsHierarchy();
+        this.initKeyboardScrolling();
       }
 
       this.addScrollBarComponents = function () {
@@ -78,6 +82,60 @@
           (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width());
       }
 
+      this.addNested = function (otherScrollable) {
+        if (this.addNestedToOneFromList(this.nestedScrollbars, otherScrollable))
+          return true;
+        else if (this.isInside(otherScrollable.$viewPort, this.$overview)) {
+          this.nestedScrollbars.push(otherScrollable);
+          return true;
+        }
+        else
+          return false;
+      }
+
+      this.addToScrollbarsHierarchy = function () {
+        this.nestedScrollbars = [];
+        if (!this.addNestedToOneFromList(this, window.jQueryCustomScrollbars))
+          window.jQueryCustomScrollbars.push(this);
+      }
+
+      this.addNestedToOneFromList = function (scrollable, list) {
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].addNested(scrollable))
+            return true;
+          else if (scrollable.addNested(list[i])) {
+            list[i] = scrollable;
+            return true;
+          }
+        }
+        return false;
+      }
+
+      this.isMouseOver = function () {
+        for (var i = 0; i < this.nestedScrollbars.length; i++)
+          if (this.nestedScrollbars[i].isMouseOver())
+            return false;
+        var offset = this.$element.offset();
+        var w = this.$element.width();
+        var h = this.$element.height();
+        return this.lastMouseEvent &&
+          (this.lastMouseEvent.pageX >= offset.left) && (this.lastMouseEvent.pageX <= offset.left + w) &&
+          (this.lastMouseEvent.pageY >= offset.top) && (this.lastMouseEvent.pageY <= offset.top + h);
+      }
+
+      this.initKeyboardScrolling = function () {
+        var _this = this;
+        $(document).keydown(function (event) {
+          if (_this.isMouseOver()) {
+            _this.vScrollbar.keyScroll(event);
+            _this.hScrollbar.keyScroll(event);
+          }
+        });
+        $(document).mousemove(function (event) {
+          _this.lastMouseEvent = event;
+        });
+      }
+
       this.init(element);
 
     }
@@ -94,7 +152,6 @@
         this.initMouseWheelScrolling();
         this.initTouchScrolling();
         this.initMouseClickScrolling();
-        this.initKeyboardScrolling();
         this.initWindowResize();
       }
 
@@ -139,6 +196,7 @@
           if (_this.enabled) {
             _this.mouseWheelScroll(deltaX, deltaY);
             event.preventDefault();
+            event.stopPropagation();
           }
         });
       }
@@ -166,20 +224,6 @@
         })
       }
 
-      this.initKeyboardScrolling = function () {
-        var _this = this;
-        $(document).keydown(function (event) {
-          if (_this.enabled && _this.isMouseOver()) {
-            var keyDown = event.which;
-            if (_this.isKeyScrolling(keyDown))
-              _this.startKeyScrolling(keyDown);
-          }
-        });
-        $(document).mousemove(function (event) {
-          _this.lastMouseEvent = event;
-        });
-      }
-
       this.initWindowResize = function () {
         var _this = this;
         $(window).resize(function () {
@@ -196,15 +240,6 @@
           if (scrollingKey == key)
             return this.sizing.scrollingKeys[key](this.viewPortSize);
         return null;
-      }
-
-      this.isMouseOver = function () {
-        var offset = this.scrollable.$element.offset();
-        var w = this.scrollable.$element.width();
-        var h = this.scrollable.$element.height();
-        return this.lastMouseEvent &&
-          (this.lastMouseEvent.pageX >= offset.left) && (this.lastMouseEvent.pageX <= offset.left + w) &&
-          (this.lastMouseEvent.pageY >= offset.top) && (this.lastMouseEvent.pageY <= offset.top + h);
       }
 
       this.startMouseMoveScrolling = function (event) {
@@ -243,6 +278,7 @@
           this.setScrollEvent(event.touches[0]);
           this.touchScrolling = true;
           event.preventDefault();
+          event.stopPropagation();
         }
       }
 
@@ -250,12 +286,14 @@
         if (this.touchScrolling && event.touches && event.touches.length > 0) {
           this.moveScroll(event.touches[0], -1);
           event.preventDefault();
+          event.stopPropagation();
         }
       }
 
       this.stopTouchScrolling = function (event) {
         this.touchScrolling = false;
         event.preventDefault();
+        event.stopPropagation();
       }
 
       this.mouseWheelScroll = function (deltaX, deltaY) {
@@ -272,8 +310,10 @@
         this.scrollBy(delta);
       }
 
-      this.startKeyScrolling = function (keyDown) {
-        this.scrollBy(this.keyScrollDelta(keyDown));
+      this.keyScroll = function (event) {
+        var keyDown = event.which;
+        if (this.enabled && this.isKeyScrolling(keyDown))
+          this.scrollBy(this.keyScrollDelta(keyDown));
       }
 
       this.scrollBy = function (delta) {

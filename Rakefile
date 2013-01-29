@@ -13,5 +13,5 @@ task :build do
   system("uglifyjs -m --comments all -o #{dest}/jquery.custom-scrollbar.min.js  #{dest}/jquery.custom-scrollbar.js")
   Dir.chdir("build")
   system("zip -r #{build_name}.zip #{build_name}")
-  FileUtils.rm_rf(dest)
+  FileUtils.rm_rf(build_name)
 end

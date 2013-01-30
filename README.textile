@@ -83,9 +83,16 @@ h2. Options
 There are some options you can pass when initializing scrollbar:
 
 |_. Option |_. Type|_. Default value |_. Description |
+| <code>skin</code>|<code>String</code>|<code>undefined</code>|A css skin class that will be added to the scrolled container. You can define it in html as well as here in options. Note that skin has to be defined in one of those ways.|
 | <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
 | <code>vScroll</code> | <code>Boolean</code> | <code>true</code> | Same as above but applies to vertical scrollbar. |
 | <code>updateOnWindowResize</code> | <code>Boolean</code> | <code>false</code> | Indicates whether scrollbar should recalculate thumb size when window is resized. See <code>demos/resize.html</code> for an example.|
+
+For example:
+
+<pre><code>
+$("#my-container").customScrollbar({skin: "default-skin", hScroll: false, updateOnWindowResize: true})
+</pre></code>
 
 h2. API
 

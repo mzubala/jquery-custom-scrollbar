@@ -2,19 +2,34 @@
 
   $.fn.customScrollbar = function (options, args) {
 
-    Scrollable = function (element) {
+    defaultOptions = {
+      hScroll:true,
+      vScroll:true,
+      updateOnWindowResize:false
+    }
+
+    Scrollable = function (element, options) {
 
       this.init = function ($element, options) {
         this.$element = $element;
+        this.options = options;
         this.$element.addClass("scrollable");
+        this.addSkinClass();
         this.addScrollBarComponents();
-        this.vScrollbar = new Scrollbar(this, new VSizing());
-        this.hScrollbar = new Scrollbar(this, new HSizing());
+        if (this.options.vScroll)
+          this.vScrollbar = new Scrollbar(this, new VSizing());
+        if (this.options.hScroll)
+          this.hScrollbar = new Scrollbar(this, new HSizing());
         this.$element.data("scrollable", this);
         if (window.jQueryCustomScrollbars == undefined)
           window.jQueryCustomScrollbars = [];
         this.addToScrollbarsHierarchy();
         this.initKeyboardScrolling();
+      }
+
+      this.addSkinClass = function () {
+        if (typeof(this.options.skin) == "string")
+          this.$element.addClass(this.options.skin);
       }
 
       this.addScrollBarComponents = function () {
@@ -46,40 +61,43 @@
       }
 
       this.resize = function () {
-        this.vScrollbar.resize();
-        this.hScrollbar.resize();
+        if (this.vScrollbar)
+          this.vScrollbar.resize();
+        if (this.hScrollbar)
+          this.hScrollbar.resize();
       }
 
       this.scrollTo = function (element) {
+        if (this.vScrollbar)
+          this.vScrollbar.scrollToElement(element);
+        if (this.hScrollbar)
+          this.hScrollbar.scrollToElement(element);
         var $element = $(element);
-        if (this.isInside(element, this.$overview) && !this.isInside(element, this.$viewPort)) {
-          var elementOffset = $element.offset();
-          var overviewOffset = this.$overview.offset();
-          this.scrollToXY(elementOffset.left - overviewOffset.left, elementOffset.top - overviewOffset.top);
-        }
       }
 
       this.scrollToXY = function (x, y) {
-        this.hScrollbar.scrollTo(x);
-        this.vScrollbar.scrollTo(y);
+        this.scrollToX(x);
+        this.scrollToY(y);
       }
 
       this.scrollToX = function (x) {
-        this.hScrollbar.scrollTo(x);
+        if (this.hScrollbar)
+          this.hScrollbar.scrollTo(x);
       }
 
       this.scrollToY = function (y) {
-        this.vScrollbar.scrollTo(y);
+        if (this.vScrollbar)
+          this.vScrollbar.scrollTo(y);
       }
 
       this.isInside = function (element, wrappingElement) {
         var $element = $(element);
         var $wrappingElement = $(wrappingElement);
         var elementOffset = $element.offset();
-        var wrappingElementOffset = this.$overview.offset();
+        var wrappingElementOffset = $wrappingElement.offset();
         return (elementOffset.top >= wrappingElementOffset.top) && (elementOffset.left >= wrappingElementOffset.left) &&
           (elementOffset.top + $element.height() <= wrappingElementOffset.top + $wrappingElement.height()) &&
-          (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width());
+          (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width())
       }
 
       this.addNested = function (otherScrollable) {
@@ -127,8 +145,10 @@
         var _this = this;
         $(document).keydown(function (event) {
           if (_this.isMouseOver()) {
-            _this.vScrollbar.keyScroll(event);
-            _this.hScrollbar.keyScroll(event);
+            if (_this.vScrollbar)
+              _this.vScrollbar.keyScroll(event);
+            if (_this.hScrollbar)
+              _this.hScrollbar.keyScroll(event);
           }
         });
         $(document).mousemove(function (event) {
@@ -136,7 +156,7 @@
         });
       }
 
-      this.init(element);
+      this.init(element, options);
 
     }
 
@@ -147,6 +167,7 @@
         this.sizing = sizing
         this.$scrollBar = this.sizing.scrollBar(this.scrollable.$element);
         this.$thumb = this.$scrollBar.find(".thumb");
+        this.setScrollPosition(0, 0);
         this.resize();
         this.initMouseMoveScrolling();
         this.initMouseWheelScrolling();
@@ -166,10 +187,13 @@
         this.sizing.size(this.$thumb, this.thumbSize);
         this.maxThumbPosition = this.calculateMaxThumbPosition();
         this.maxOverviewPosition = this.calculateMaxOverviewPosition();
+        this.enabled = (this.overviewSize > this.viewPortSize);
         if (this.scrollPercent === undefined)
           this.scrollPercent = 0.0;
-        this.rescroll();
-        this.enabled = (this.overviewSize > this.viewPortSize);
+        if (this.enabled)
+          this.rescroll();
+        else
+          this.setScrollPosition(0, 0);
         this.$scrollBar.toggle(this.enabled);
       }
 
@@ -225,10 +249,12 @@
       }
 
       this.initWindowResize = function () {
-        var _this = this;
-        $(window).resize(function () {
-          _this.resize();
-        });
+        if (this.scrollable.options.updateOnWindowResize) {
+          var _this = this;
+          $(window).resize(function () {
+            _this.resize();
+          });
+        }
       }
 
       this.isKeyScrolling = function (key) {
@@ -277,8 +303,6 @@
         if (event.touches && event.touches.length > 0) {
           this.setScrollEvent(event.touches[0]);
           this.touchScrolling = true;
-          event.preventDefault();
-          event.stopPropagation();
         }
       }
 
@@ -286,18 +310,15 @@
         if (this.touchScrolling && event.touches && event.touches.length > 0) {
           this.moveScroll(event.touches[0], -1);
           event.preventDefault();
-          event.stopPropagation();
         }
       }
 
       this.stopTouchScrolling = function (event) {
         this.touchScrolling = false;
-        event.preventDefault();
-        event.stopPropagation();
       }
 
       this.mouseWheelScroll = function (deltaX, deltaY) {
-        var delta = this.sizing.wheelDelta(deltaX, deltaY) * -10;
+        var delta = this.sizing.wheelDelta(deltaX, deltaY) * -20;
         if (delta != 0)
           this.scrollBy(delta);
       }
@@ -312,8 +333,10 @@
 
       this.keyScroll = function (event) {
         var keyDown = event.which;
-        if (this.enabled && this.isKeyScrolling(keyDown))
+        if (this.enabled && this.isKeyScrolling(keyDown)) {
           this.scrollBy(this.keyScrollDelta(keyDown));
+          event.preventDefault();
+        }
       }
 
       this.scrollBy = function (delta) {
@@ -333,11 +356,9 @@
       }
 
       this.rescroll = function () {
-        if (this.scrollPercent != 0.0) {
-          var thumbPosition = this.scrollPercent * this.maxThumbPosition;
-          var overviewPosition = this.scrollPercent * this.maxOverviewPosition;
-          this.setScrollPosition(overviewPosition, thumbPosition);
-        }
+        var thumbPosition = this.scrollPercent * this.maxThumbPosition;
+        var overviewPosition = this.scrollPercent * this.maxOverviewPosition;
+        this.setScrollPosition(overviewPosition, thumbPosition);
       }
 
       this.setScrollPosition = function (overviewPosition, thumbPosition) {
@@ -357,6 +378,21 @@
         var attr = "page" + this.sizing.scrollAxis();
         if (!this.scrollEvent || this.scrollEvent[attr] != event[attr])
           this.scrollEvent = {pageX:event.pageX, pageY:event.pageY};
+      }
+
+      this.scrollToElement = function (element) {
+        var $element = element;
+        if (this.sizing.isInside($element, this.scrollable.$overview) && !this.sizing.isInside($element, this.scrollable.$viewPort)) {
+          var elementOffset = $element.offset();
+          var overviewOffset = this.scrollable.$overview.offset();
+          var viewPortOffset = this.scrollable.$viewPort.offset();
+          var r;
+          if (elementOffset[this.sizing.offsetComponent()] < viewPortOffset[this.sizing.offsetComponent()])
+            r = elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()];
+          else
+            r = elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()] + this.sizing.size($element) - this.sizing.size(this.scrollable.$viewPort);
+          this.scrollTo(r);
+        }
       }
 
       this.init(scrollable, sizing)
@@ -399,6 +435,15 @@
         39:function (viewPortSize) {
           return 10; //arrow right
         }
+      }
+
+      this.isInside = function (element, wrappingElement) {
+        var $element = $(element);
+        var $wrappingElement = $(wrappingElement);
+        var elementOffset = $element.offset();
+        var wrappingElementOffset = $wrappingElement.offset();
+        return (elementOffset.left >= wrappingElementOffset.left) &&
+          (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width());
       }
 
     }
@@ -447,15 +492,31 @@
         }
       }
 
+      this.isInside = function (element, wrappingElement) {
+        var $element = $(element);
+        var $wrappingElement = $(wrappingElement);
+        var elementOffset = $element.offset();
+        var wrappingElementOffset = $wrappingElement.offset();
+        return (elementOffset.top >= wrappingElementOffset.top) &&
+          (elementOffset.top + $element.height() <= wrappingElementOffset.top + $wrappingElement.height());
+      }
+
     }
 
     return this.each(function () {
-      if (options && typeof(options) == "string") {
+      if (options == undefined)
+        options = defaultOptions;
+      if (typeof(options) == "string") {
         var scrollable = $(this).data("scrollable");
-        scrollable[options](args);
+        if (scrollable)
+          scrollable[options](args);
+      }
+      else if (typeof(options) == "object") {
+        options = $.extend(defaultOptions, options);
+        new Scrollable($(this), options);
       }
       else
-        new Scrollable($(this), options);
+        throw "Invalid type of options";
     });
 
   };

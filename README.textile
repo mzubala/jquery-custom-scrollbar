@@ -78,6 +78,15 @@ The above method will add vertical scrollbar only. If you also want to add horiz
 
 This defines example total width of the scrolled content (not just the width of the visible part as in previous step).
 
+h2. Options
+
+There are some options you can pass when initializing scrollbar:
+
+|_. Option |_. Type|_. Default value |_. Description |
+| <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
+| <code>vScroll</code> | <code>Boolean</code> | <code>true</code> | Same as above but applies to vertical scrollbar. |
+| <code>updateOnWindowResize</code> | <code>Boolean</code> | <code>false</code> | Indicates whether scrollbar should recalculate thumb size when window is resized. See <code>demos/resize.html</code> for an example.|
+
 h2. API
 
 There are some methods of the plugin you may want to call.

@@ -2,13 +2,15 @@
 
   $.fn.customScrollbar = function (options, args) {
 
-    defaultOptions = {
+    var defaultOptions = {
+      skin:undefined,
       hScroll:true,
       vScroll:true,
-      updateOnWindowResize:false
+      updateOnWindowResize:false,
+      onCustomScroll:undefined
     }
 
-    Scrollable = function (element, options) {
+    var Scrollable = function (element, options) {
       this.$element = $(element);
       this.options = options;
       this.$element.addClass("scrollable");
@@ -23,6 +25,7 @@
         window.jQueryCustomScrollbars = [];
       this.addToScrollbarsHierarchy();
       this.initKeyboardScrolling();
+      this.bindEvents();
     }
 
     Scrollable.prototype = {
@@ -153,11 +156,16 @@
         $(document).mousemove(function (event) {
           _this.lastMouseEvent = event;
         });
+      },
+
+      bindEvents:function () {
+        if (this.options.onCustomScroll)
+          this.$element.on("customScroll", this.options.onCustomScroll);
       }
 
     }
 
-    Scrollbar = function (scrollable, sizing) {
+    var Scrollbar = function (scrollable, sizing) {
       this.scrollable = scrollable;
       this.sizing = sizing
       this.$scrollBar = this.sizing.scrollBar(this.scrollable.$element);
@@ -347,9 +355,21 @@
           overviewPosition = 0;
         if (overviewPosition > this.maxOverviewPosition)
           overviewPosition = this.maxOverviewPosition;
+        var oldScrollPercent = this.scrollPercent;
         this.scrollPercent = overviewPosition / this.maxOverviewPosition;
         var thumbPosition = this.scrollPercent * this.maxThumbPosition;
         this.setScrollPosition(overviewPosition, thumbPosition);
+        if (oldScrollPercent != this.scrollPercent)
+          this.triggerCustomScroll(oldScrollPercent);
+      },
+
+      triggerCustomScroll:function (oldScrollPercent) {
+        this.scrollable.$element.trigger("customScroll", {
+            scrollAxis:this.sizing.scrollAxis(),
+            direction:this.sizing.scrollDirection(oldScrollPercent, this.scrollPercent),
+            scrollPercent:Math.round(this.scrollPercent * 100)
+          }
+        );
       },
 
       rescroll:function () {
@@ -393,45 +413,51 @@
       }
     }
 
-    HSizing = function () {
+    var HSizing = function () {
+    }
 
-      this.size = function ($el, arg) {
+    HSizing.prototype = {
+      size:function ($el, arg) {
         if (arg)
           return $el.width(arg);
         else
           return $el.width();
-      }
+      },
 
-      this.scrollBar = function ($el) {
+      scrollBar:function ($el) {
         return $el.find(".scroll-bar.horizontal");
-      }
+      },
 
-      this.mouseDelta = function (event1, event2) {
+      mouseDelta:function (event1, event2) {
         return event2.pageX - event1.pageX;
-      }
+      },
 
-      this.offsetComponent = function () {
+      offsetComponent:function () {
         return "left";
-      }
+      },
 
-      this.wheelDelta = function (deltaX, deltaY) {
+      wheelDelta:function (deltaX, deltaY) {
         return deltaX;
-      }
+      },
 
-      this.scrollAxis = function () {
+      scrollAxis:function () {
         return "X";
-      }
+      },
 
-      this.scrollingKeys = {
+      scrollDirection:function (oldPercent, newPercent) {
+        return oldPercent < newPercent ? "right" : "left";
+      },
+
+      scrollingKeys:{
         37:function (viewPortSize) {
           return -10; //arrow left
         },
         39:function (viewPortSize) {
           return 10; //arrow right
         }
-      }
+      },
 
-      this.isInside = function (element, wrappingElement) {
+      isInside:function (element, wrappingElement) {
         var $element = $(element);
         var $wrappingElement = $(wrappingElement);
         var elementOffset = $element.offset();
@@ -442,7 +468,7 @@
 
     }
 
-    VSizing = function () {
+    var VSizing = function () {
     }
 
     VSizing.prototype = {
@@ -471,6 +497,10 @@
 
       scrollAxis:function () {
         return "Y";
+      },
+
+      scrollDirection:function (oldPercent, newPercent) {
+        return oldPercent < newPercent ? "down" : "up";
       },
 
       scrollingKeys:{
@@ -515,7 +545,8 @@
         throw "Invalid type of options";
     });
 
-  };
+  }
+  ;
 
 })
   (jQuery);

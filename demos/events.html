@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JQuery Custom Scrollbar - basic usage demo</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="../jquery.custom-scrollbar.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery.custom-scrollbar.css"/>
+    <style type="text/css">
+
+            /*Vertical scrollbar - set width and height of a div you want to add a scrollbar to*/
+        #vertical-scrollbar-demo {
+            height: 100px;
+            width: 400px;
+        }
+
+            /*Horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
+        #horizontal-scrollbar-demo {
+            width: 400px;
+            height: 200px;
+        }
+
+            /*Horizontal scrollbar - set width of overview or make it expand horizontal like below*/
+        #horizontal-scrollbar-demo .overview {
+            /*width: 1836px;*/
+            /* or */
+            white-space: nowrap;
+        }
+
+        #horizontal-scrollbar-demo img {
+            height: 180px;
+            width: 180px;
+        }
+
+            /*Vertical and horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
+        #vertical-horizontal-scrollbar-demo {
+            width: 400px;
+            height: 200px;
+        }
+
+            /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
+        #vertical-horizontal-scrollbar-demo .overview {
+            width: 600px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>JQuery Custom Scrollbar - events demo</h1>
+
+<h2>Vertical scrollbar</h2>
+
+<!-- Add a skin class to the scrolled div: gray-skin in this case -->
+<div id="vertical-scrollbar-demo" class="gray-skin demo">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque
+    semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+    posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus
+    metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+    Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus eget
+    nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi, in
+    interdum massa nibh nec erat.
+</div>
+
+<p id="vertical-scrollbar-demo-events-info">
+    <span>Scroll percent: </span><span class="scroll-percent-value">0</span>%<br/>
+    <span>Scroll direction: </span><span class="scroll-direction-value">-</span><br/>
+    <span>Scroll axis: </span><span class="scroll-scroll-axis"></span>
+</p>
+
+<h2>Horizontal scrollbar</h2>
+
+<div id="horizontal-scrollbar-demo" class="default-skin demo">
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+</div>
+
+<p id="horizontal-scrollbar-demo-events-info">
+    <span>Scroll percent: </span><span class="scroll-percent-value">0</span>%<br/>
+    <span>Scroll direction: </span><span class="scroll-direction-value">-</span><br/>
+    <span>Scroll axis: </span><span class="scroll-scroll-axis"></span>
+</p>
+
+<h2>Vertical and horizontal scrollbar</h2>
+
+<!-- Add a skin class to the scrolled div: default-skin in this case -->
+<div id="vertical-horizontal-scrollbar-demo" class="default-skin demo">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+    Quisque
+    semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+    posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+    tempus
+    metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+    Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+    eget
+    nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+    in
+    interdum massa nibh nec erat.
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+    Quisque
+    semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+    posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+    tempus
+    metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+    Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+    eget
+    nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+    in
+    interdum massa nibh nec erat.
+</div>
+
+<p id="vertical-horizontal-scrollbar-demo-events-info">
+    <span>Scroll percent: </span><span class="scroll-percent-value">0</span>%<br/>
+    <span>Scroll direction: </span><span class="scroll-direction-value">-</span><br/>
+    <span>Scroll axis: </span><span class="scroll-scroll-axis"></span>
+</p>
+
+<script type="text/javascript">
+    $(window).load(function () {
+        $(".demo").customScrollbar({onCustomScroll:function (event, scrollData) {
+            var id = "#" + $(this).attr("id") + "-events-info";
+            $(id + " .scroll-percent-value").html(scrollData.scrollPercent);
+            $(id + " .scroll-direction-value").html(scrollData.direction);
+            $(id + " .scroll-scroll-axis").html(scrollData.scrollAxis);
+        }});
+    });
+</script>
+</body>
+</html>

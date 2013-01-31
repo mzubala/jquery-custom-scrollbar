@@ -9,7 +9,7 @@ h2. Features
 * scrolling by mouse dragging, mouse wheel, keyboard - just as you would with native browser scrollbar
 * touch scrolling on mobile devices (Android, iPhone and iPad)
 * a couple predefined skins showing you how to style scrollbars
-* simple api that lets you scroll programmatically
+* simple api that lets you scroll programmatically and be notified about scroll events
 
 h2. Requirements
 
@@ -19,7 +19,7 @@ To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and la
 
 h2. Download
 
-You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/raw/master/build/jquery-custom-scrollbar-0.4.0.zip
+You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/raw/master/build/jquery-custom-scrollbar-0.5.0.zip
 
 h2. Demos
 
@@ -129,4 +129,28 @@ scrollbar becomes invalid. After you call it scrollbar is adjusted to new sizes 
 
 <pre><code>
 $(".container").customScrollbar("resize")
+</pre></code>
+
+h2. Events
+
+h3. customScroll
+
+Triggered whenever content is scrolled. Separate events are fired when vertical and horizontal scrollbar is moved.
+
+<pre><code>
+$(".container").on("customScroll", function(event, scrollData) {});
+</pre></code>
+
+Handler function takes two arguments. <code>event</code> is standard jquery event object. <code>scrollData</code> is an
+object with 3 fields holding scroll specific information:
+* <code>scrollPercent</code> - integer in range 0..100 indicating percentage position of the scrollbar
+* <code>scrollDirection</code> - string that can take following 4 values: <code>left</code>, <code>right</right>, <code>up</code>, <code>down</right> - indicates what direction the scrollbar was moved in
+* <code>scrollAxis</code> - string indicating which scrollbar was moved: <code>X</code> for horizontal scrollbar and <code>Y</code> for vertical scrollbar
+
+You can also bind handler to that event when initializing scrollbar:
+
+<pre><code>
+$(".container").customScrollbar({
+  onCustomScroll: function(event, scrollData) {}
+});
 </pre></code>

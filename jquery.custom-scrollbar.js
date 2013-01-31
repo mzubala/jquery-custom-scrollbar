@@ -9,30 +9,30 @@
     }
 
     Scrollable = function (element, options) {
+      this.$element = $(element);
+      this.options = options;
+      this.$element.addClass("scrollable");
+      this.addSkinClass();
+      this.addScrollBarComponents();
+      if (this.options.vScroll)
+        this.vScrollbar = new Scrollbar(this, new VSizing());
+      if (this.options.hScroll)
+        this.hScrollbar = new Scrollbar(this, new HSizing());
+      this.$element.data("scrollable", this);
+      if (window.jQueryCustomScrollbars == undefined)
+        window.jQueryCustomScrollbars = [];
+      this.addToScrollbarsHierarchy();
+      this.initKeyboardScrolling();
+    }
 
-      this.init = function ($element, options) {
-        this.$element = $element;
-        this.options = options;
-        this.$element.addClass("scrollable");
-        this.addSkinClass();
-        this.addScrollBarComponents();
-        if (this.options.vScroll)
-          this.vScrollbar = new Scrollbar(this, new VSizing());
-        if (this.options.hScroll)
-          this.hScrollbar = new Scrollbar(this, new HSizing());
-        this.$element.data("scrollable", this);
-        if (window.jQueryCustomScrollbars == undefined)
-          window.jQueryCustomScrollbars = [];
-        this.addToScrollbarsHierarchy();
-        this.initKeyboardScrolling();
-      }
+    Scrollable.prototype = {
 
-      this.addSkinClass = function () {
+      addSkinClass:function () {
         if (typeof(this.options.skin) == "string")
           this.$element.addClass(this.options.skin);
-      }
+      },
 
-      this.addScrollBarComponents = function () {
+      addScrollBarComponents:function () {
         this.assignViewPort();
         if (this.$viewPort.length == 0) {
           this.$element.wrapInner("<div class=\"viewport\" />")
@@ -45,52 +45,51 @@
         }
         this.addScrollBar("vertical", "prepend");
         this.addScrollBar("horizontal", "append");
-      }
+      },
 
-      this.assignViewPort = function () {
+      assignViewPort:function () {
         this.$viewPort = this.$element.find(".viewport");
-      }
+      },
 
-      this.assignOverview = function () {
+      assignOverview:function () {
         this.$overview = this.$viewPort.find(".overview");
-      }
+      },
 
-      this.addScrollBar = function (orientation, fun) {
+      addScrollBar:function (orientation, fun) {
         if (this.$element.find(".scroll-bar." + orientation).length == 0)
           this.$element[fun]("<div class='scroll-bar " + orientation + "'><div class='thumb'></div></div>")
-      }
+      },
 
-      this.resize = function () {
+      resize:function () {
         if (this.vScrollbar)
           this.vScrollbar.resize();
         if (this.hScrollbar)
           this.hScrollbar.resize();
-      }
+      },
 
-      this.scrollTo = function (element) {
+      scrollTo:function (element) {
         if (this.vScrollbar)
           this.vScrollbar.scrollToElement(element);
         if (this.hScrollbar)
           this.hScrollbar.scrollToElement(element);
-        var $element = $(element);
-      }
+      },
 
-      this.scrollToXY = function (x, y) {
+      scrollToXY:function (x, y) {
         this.scrollToX(x);
         this.scrollToY(y);
-      }
+      },
 
-      this.scrollToX = function (x) {
+      scrollToX:function (x) {
         if (this.hScrollbar)
           this.hScrollbar.scrollTo(x);
-      }
+      },
 
-      this.scrollToY = function (y) {
+      scrollToY:function (y) {
         if (this.vScrollbar)
           this.vScrollbar.scrollTo(y);
-      }
+      },
 
-      this.isInside = function (element, wrappingElement) {
+      isInside:function (element, wrappingElement) {
         var $element = $(element);
         var $wrappingElement = $(wrappingElement);
         var elementOffset = $element.offset();
@@ -98,9 +97,9 @@
         return (elementOffset.top >= wrappingElementOffset.top) && (elementOffset.left >= wrappingElementOffset.left) &&
           (elementOffset.top + $element.height() <= wrappingElementOffset.top + $wrappingElement.height()) &&
           (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width())
-      }
+      },
 
-      this.addNested = function (otherScrollable) {
+      addNested:function (otherScrollable) {
         if (this.addNestedToOneFromList(this.nestedScrollbars, otherScrollable))
           return true;
         else if (this.isInside(otherScrollable.$viewPort, this.$overview)) {
@@ -109,15 +108,15 @@
         }
         else
           return false;
-      }
+      },
 
-      this.addToScrollbarsHierarchy = function () {
+      addToScrollbarsHierarchy:function () {
         this.nestedScrollbars = [];
         if (!this.addNestedToOneFromList(this, window.jQueryCustomScrollbars))
           window.jQueryCustomScrollbars.push(this);
-      }
+      },
 
-      this.addNestedToOneFromList = function (scrollable, list) {
+      addNestedToOneFromList:function (scrollable, list) {
         for (var i = 0; i < list.length; i++) {
           if (list[i].addNested(scrollable))
             return true;
@@ -127,9 +126,9 @@
           }
         }
         return false;
-      }
+      },
 
-      this.isMouseOver = function () {
+      isMouseOver:function () {
         for (var i = 0; i < this.nestedScrollbars.length; i++)
           if (this.nestedScrollbars[i].isMouseOver())
             return false;
@@ -139,9 +138,9 @@
         return this.lastMouseEvent &&
           (this.lastMouseEvent.pageX >= offset.left) && (this.lastMouseEvent.pageX <= offset.left + w) &&
           (this.lastMouseEvent.pageY >= offset.top) && (this.lastMouseEvent.pageY <= offset.top + h);
-      }
+      },
 
-      this.initKeyboardScrolling = function () {
+      initKeyboardScrolling:function () {
         var _this = this;
         $(document).keydown(function (event) {
           if (_this.isMouseOver()) {
@@ -156,27 +155,25 @@
         });
       }
 
-      this.init(element, options);
-
     }
 
     Scrollbar = function (scrollable, sizing) {
+      this.scrollable = scrollable;
+      this.sizing = sizing
+      this.$scrollBar = this.sizing.scrollBar(this.scrollable.$element);
+      this.$thumb = this.$scrollBar.find(".thumb");
+      this.setScrollPosition(0, 0);
+      this.resize();
+      this.initMouseMoveScrolling();
+      this.initMouseWheelScrolling();
+      this.initTouchScrolling();
+      this.initMouseClickScrolling();
+      this.initWindowResize();
+    }
 
-      this.init = function (scrollable, sizing) {
-        this.scrollable = scrollable;
-        this.sizing = sizing
-        this.$scrollBar = this.sizing.scrollBar(this.scrollable.$element);
-        this.$thumb = this.$scrollBar.find(".thumb");
-        this.setScrollPosition(0, 0);
-        this.resize();
-        this.initMouseMoveScrolling();
-        this.initMouseWheelScrolling();
-        this.initTouchScrolling();
-        this.initMouseClickScrolling();
-        this.initWindowResize();
-      }
+    Scrollbar.prototype = {
 
-      this.resize = function () {
+      resize:function () {
         this.scrollable.$viewPort.height(this.scrollable.$element.height());
         this.sizing.size(this.scrollable.$viewPort, this.sizing.size(this.scrollable.$element));
         this.viewPortSize = this.sizing.size(this.scrollable.$viewPort);
@@ -195,9 +192,9 @@
         else
           this.setScrollPosition(0, 0);
         this.$scrollBar.toggle(this.enabled);
-      }
+      },
 
-      this.initMouseMoveScrolling = function () {
+      initMouseMoveScrolling:function () {
         var _this = this;
         this.$thumb.mousedown(function (event) {
           if (_this.enabled)
@@ -212,9 +209,9 @@
         this.$thumb.click(function (event) {
           event.stopPropagation();
         });
-      }
+      },
 
-      this.initMouseWheelScrolling = function () {
+      initMouseWheelScrolling:function () {
         var _this = this;
         this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
           if (_this.enabled) {
@@ -223,9 +220,9 @@
             event.stopPropagation();
           }
         });
-      }
+      },
 
-      this.initTouchScrolling = function () {
+      initTouchScrolling:function () {
         if (document.addEventListener) {
           var _this = this;
           this.scrollable.$element[0].addEventListener("touchstart", function (event) {
@@ -239,113 +236,113 @@
             _this.stopTouchScrolling(event);
           });
         }
-      }
+      },
 
-      this.initMouseClickScrolling = function () {
+      initMouseClickScrolling:function () {
         var _this = this;
         this.$scrollBar.click(function (event) {
           _this.mouseClickScroll(event);
         })
-      }
+      },
 
-      this.initWindowResize = function () {
+      initWindowResize:function () {
         if (this.scrollable.options.updateOnWindowResize) {
           var _this = this;
           $(window).resize(function () {
             _this.resize();
           });
         }
-      }
+      },
 
-      this.isKeyScrolling = function (key) {
+      isKeyScrolling:function (key) {
         return this.keyScrollDelta(key) != null;
-      }
+      },
 
-      this.keyScrollDelta = function (key) {
+      keyScrollDelta:function (key) {
         for (var scrollingKey in this.sizing.scrollingKeys)
           if (scrollingKey == key)
             return this.sizing.scrollingKeys[key](this.viewPortSize);
         return null;
-      }
+      },
 
-      this.startMouseMoveScrolling = function (event) {
+      startMouseMoveScrolling:function (event) {
         this.mouseMoveScrolling = true;
         $("html").addClass("not-selectable");
         this.setUnselectable($("html"), "on");
         this.setScrollEvent(event);
-      }
+      },
 
-      this.stopMouseMoveScrolling = function (event) {
+      stopMouseMoveScrolling:function (event) {
         this.mouseMoveScrolling = false;
         $("html").removeClass("not-selectable");
         this.setUnselectable($("html"), null);
-      }
+      },
 
-      this.setUnselectable = function (element, value) {
+      setUnselectable:function (element, value) {
         if (element.attr("unselectable") != value) {
           element.attr("unselectable", value);
           element.find(':not(input)').attr('unselectable', value);
         }
-      }
+      },
 
-      this.mouseMoveScroll = function (event) {
+      mouseMoveScroll:function (event) {
         if (this.mouseMoveScrolling)
           this.moveScroll(event, 1);
-      }
+      },
 
-      this.moveScroll = function (event, turn) {
+      moveScroll:function (event, turn) {
         var delta = this.sizing.mouseDelta(this.scrollEvent, event) * turn;
         this.scrollBy(Math.round(delta * this.overviewSize / this.viewPortSize));
         this.setScrollEvent(event);
-      }
+      },
 
-      this.startTouchScrolling = function (event) {
+      startTouchScrolling:function (event) {
         if (event.touches && event.touches.length > 0) {
           this.setScrollEvent(event.touches[0]);
           this.touchScrolling = true;
         }
-      }
+      },
 
-      this.touchScroll = function (event) {
+      touchScroll:function (event) {
         if (this.touchScrolling && event.touches && event.touches.length > 0) {
           this.moveScroll(event.touches[0], -1);
           event.preventDefault();
         }
-      }
+      },
 
-      this.stopTouchScrolling = function (event) {
+      stopTouchScrolling:function (event) {
         this.touchScrolling = false;
-      }
+      },
 
-      this.mouseWheelScroll = function (deltaX, deltaY) {
+      mouseWheelScroll:function (deltaX, deltaY) {
         var delta = this.sizing.wheelDelta(deltaX, deltaY) * -20;
         if (delta != 0)
           this.scrollBy(delta);
-      }
+      },
 
-      this.mouseClickScroll = function (event) {
+      mouseClickScroll:function (event) {
         var delta = this.viewPortSize - 20;
         if (event["page" + this.sizing.scrollAxis()] < this.$thumb.offset()[this.sizing.offsetComponent()])
         // mouse click over thumb
           delta = -delta;
         this.scrollBy(delta);
-      }
+      },
 
-      this.keyScroll = function (event) {
+      keyScroll:function (event) {
         var keyDown = event.which;
         if (this.enabled && this.isKeyScrolling(keyDown)) {
           this.scrollBy(this.keyScrollDelta(keyDown));
           event.preventDefault();
         }
-      }
+      },
 
-      this.scrollBy = function (delta) {
+      scrollBy:function (delta) {
         var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
         overviewPosition += delta;
         this.scrollTo(overviewPosition);
-      }
+      },
 
-      this.scrollTo = function (overviewPosition) {
+      scrollTo:function (overviewPosition) {
         if (overviewPosition < 0)
           overviewPosition = 0;
         if (overviewPosition > this.maxOverviewPosition)
@@ -353,34 +350,34 @@
         this.scrollPercent = overviewPosition / this.maxOverviewPosition;
         var thumbPosition = this.scrollPercent * this.maxThumbPosition;
         this.setScrollPosition(overviewPosition, thumbPosition);
-      }
+      },
 
-      this.rescroll = function () {
+      rescroll:function () {
         var thumbPosition = this.scrollPercent * this.maxThumbPosition;
         var overviewPosition = this.scrollPercent * this.maxOverviewPosition;
         this.setScrollPosition(overviewPosition, thumbPosition);
-      }
+      },
 
-      this.setScrollPosition = function (overviewPosition, thumbPosition) {
+      setScrollPosition:function (overviewPosition, thumbPosition) {
         this.$thumb.css(this.sizing.offsetComponent(), thumbPosition + "px");
         this.scrollable.$overview.css(this.sizing.offsetComponent(), -overviewPosition + "px");
-      }
+      },
 
-      this.calculateMaxThumbPosition = function () {
+      calculateMaxThumbPosition:function () {
         return this.sizing.size(this.$scrollBar) - this.thumbSize;
-      }
+      },
 
-      this.calculateMaxOverviewPosition = function () {
+      calculateMaxOverviewPosition:function () {
         return this.sizing.size(this.scrollable.$overview) - this.sizing.size(this.scrollable.$viewPort);
-      }
+      },
 
-      this.setScrollEvent = function (event) {
+      setScrollEvent:function (event) {
         var attr = "page" + this.sizing.scrollAxis();
         if (!this.scrollEvent || this.scrollEvent[attr] != event[attr])
           this.scrollEvent = {pageX:event.pageX, pageY:event.pageY};
-      }
+      },
 
-      this.scrollToElement = function (element) {
+      scrollToElement:function (element) {
         var $element = element;
         if (this.sizing.isInside($element, this.scrollable.$overview) && !this.sizing.isInside($element, this.scrollable.$viewPort)) {
           var elementOffset = $element.offset();
@@ -394,9 +391,6 @@
           this.scrollTo(r);
         }
       }
-
-      this.init(scrollable, sizing)
-
     }
 
     HSizing = function () {
@@ -449,35 +443,37 @@
     }
 
     VSizing = function () {
+    }
 
-      this.size = function ($el, arg) {
+    VSizing.prototype = {
+      size:function ($el, arg) {
         if (arg)
           return $el.height(arg);
         else
           return $el.height();
-      }
+      },
 
-      this.scrollBar = function ($el) {
+      scrollBar:function ($el) {
         return $el.find(".scroll-bar.vertical");
-      }
+      },
 
-      this.mouseDelta = function (event1, event2) {
+      mouseDelta:function (event1, event2) {
         return event2.pageY - event1.pageY;
-      }
+      },
 
-      this.offsetComponent = function () {
+      offsetComponent:function () {
         return "top";
-      }
+      },
 
-      this.wheelDelta = function (deltaX, deltaY) {
+      wheelDelta:function (deltaX, deltaY) {
         return deltaY;
-      }
+      },
 
-      this.scrollAxis = function () {
+      scrollAxis:function () {
         return "Y";
-      }
+      },
 
-      this.scrollingKeys = {
+      scrollingKeys:{
         38:function (viewPortSize) {
           return -10; //arrow up
         },
@@ -490,9 +486,9 @@
         34:function (viewPortSize) {
           return viewPortSize - 20; //page down
         }
-      }
+      },
 
-      this.isInside = function (element, wrappingElement) {
+      isInside:function (element, wrappingElement) {
         var $element = $(element);
         var $wrappingElement = $(wrappingElement);
         var elementOffset = $element.offset();

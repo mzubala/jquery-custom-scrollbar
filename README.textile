@@ -24,7 +24,7 @@ You can download the latest version "here":https://github.com/mzubala/jquery-cus
 h2. Demos
 
 In <code>demos</code> folder of this repo, there are some example usages of custom scrollbar and its api. The demos are also
-available online "here":http://jquery-custom-scrollbar.rocketmind.pl/demos
+available online "here":http://jquery-custom-scrollbar.rocketmind.pl/
 
 h2. Usage
 

@@ -23,7 +23,7 @@
   "keywords":["ui", "scroll", "scrollbar"],
   "homepage":"https://github.com/mzubala/jquery-custom-scrollbar",
   "bugs":"https://github.com/mzubala/jquery-custom-scrollbar/issues",
-  "demo":"http://jquery-custom-scrollbar.rocketmind.pl/demos",
+  "demo":"http://jquery-custom-scrollbar.rocketmind.pl",
   "maintainers":[
     {
       "name":"Maciej Zubala",

@@ -131,6 +131,10 @@ scrollbar becomes invalid. After you call it scrollbar is adjusted to new sizes 
 $(".container").customScrollbar("resize")
 </pre></code>
 
+h3. remove()
+
+Removes all the DOM changes and event bindings added by the plugin.
+
 h2. Events
 
 h3. customScroll

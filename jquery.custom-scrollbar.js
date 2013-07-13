@@ -613,7 +613,7 @@
     // Gecko
     if (orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS) {
       deltaY = 0;
-      deltaX = -1 * delta;
+      deltaX = delta;
     }
 
     // Webkit
@@ -621,7 +621,7 @@
       deltaY = orgEvent.wheelDeltaY / 120;
     }
     if (orgEvent.wheelDeltaX !== undefined) {
-      deltaX = -1 * orgEvent.wheelDeltaX / 120;
+      deltaX =  orgEvent.wheelDeltaX / 120;
     }
 
     // Add event and delta to the front of the arguments

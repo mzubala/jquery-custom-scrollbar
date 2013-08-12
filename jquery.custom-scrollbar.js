@@ -403,7 +403,7 @@
 
       touchScroll:function (event) {
         if (this.touchScrolling && event.touches && event.touches.length > 0) {
-          this.moveScroll(event.touches[0], -1);
+          this.moveScroll(event.touches[0], -this.ratio);
           event.preventDefault();
         }
       },

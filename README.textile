@@ -1,7 +1,6 @@
 h1. jQuery Custom Scrollbar
 
-jQuery Custom Scrollbar is a jQuery plugin that lets you add fully customizable scrollbars to your sites. With the plugin
-you can apply any css styles you want to your scrollbars.
+jQuery Custom Scrollbar is a jQuery plugin that lets you add fully customizable scrollbars to your sites. With the plugin you can apply any css styles you want to your scrollbars.
 
 h2. Features
 
@@ -145,8 +144,7 @@ Triggered whenever content is scrolled. Separate events are fired when vertical 
 $(".container").on("customScroll", function(event, scrollData) {});
 </pre></code>
 
-Handler function takes two arguments. <code>event</code> is standard jquery event object. <code>scrollData</code> is an
-object with 3 fields holding scroll specific information:
+Handler function takes two arguments. <code>event</code> is standard jquery event object. <code>scrollData</code> is an object with 3 fields holding scroll specific information:
 * <code>scrollPercent</code> - integer in range 0..100 indicating percentage position of the scrollbar
 * <code>scrollDirection</code> - string that can take following 4 values: <code>left</code>, <code>right</code>, <code>up</code>, <code>down</code> - indicates what direction the scrollbar was moved in
 * <code>scrollAxis</code> - string indicating which scrollbar was moved: <code>X</code> for horizontal scrollbar and <code>Y</code> for vertical scrollbar

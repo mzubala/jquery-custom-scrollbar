@@ -493,12 +493,7 @@
           var elementOffset = $element.offset();
           var overviewOffset = this.scrollable.$overview.offset();
           var viewPortOffset = this.scrollable.$viewPort.offset();
-          var r;
-          if (elementOffset[this.sizing.offsetComponent()] < viewPortOffset[this.sizing.offsetComponent()])
-            r = elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()];
-          else
-            r = elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()] + this.sizing.size($element) - this.sizing.size(this.scrollable.$viewPort);
-          this.scrollTo(r);
+          this.scrollTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()]);
         }
       },
       

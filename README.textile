@@ -55,7 +55,7 @@ Add a skin class to your container:
 </pre></code>
 
 In the example we use <code>default-skin</code>. Plugin comes with two other predefined skins: <code>gray-skin</code> and <code>modern-skin</code>.
-You are not limited to that and can style scrollbar your own way.
+You are not limited to that and you can style scrollbar your own way.
 
 Finally call this js code:
 
@@ -133,6 +133,10 @@ $(".container").customScrollbar("resize")
 h3. remove()
 
 Removes all the DOM changes and event bindings added by the plugin.
+
+<pre><code>
+$(".container").customScrollbar("remove")
+</pre></code>
 
 h2. Events
 

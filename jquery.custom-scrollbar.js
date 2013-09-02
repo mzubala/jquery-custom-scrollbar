@@ -7,6 +7,7 @@
       hScroll:true,
       vScroll:true,
       updateOnWindowResize:false,
+      animationSpeed: 300,
       onCustomScroll:undefined
     }
 
@@ -121,12 +122,12 @@
 
       scrollToX:function (x) {
         if (this.hScrollbar)
-          this.hScrollbar.scrollTo(x);
+          this.hScrollbar.scrollTo(x, true);
       },
 
       scrollToY:function (y) {
         if (this.vScrollbar)
-          this.vScrollbar.scrollTo(y);
+          this.vScrollbar.scrollTo(y, true);
       },
       
       remove: function() {
@@ -437,10 +438,10 @@
       scrollBy:function (delta) {
         var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
         overviewPosition += delta;
-        this.scrollTo(overviewPosition);
+        this.scrollTo(overviewPosition, false);
       },
 
-      scrollTo:function (overviewPosition) {
+      scrollTo:function (overviewPosition, animate) {
         if (overviewPosition < 0)
           overviewPosition = 0;
         if (overviewPosition > this.maxOverviewPosition)
@@ -448,7 +449,10 @@
         var oldScrollPercent = this.scrollPercent;
         this.scrollPercent = overviewPosition / this.maxOverviewPosition;
         var thumbPosition = this.scrollPercent * this.maxThumbPosition;
-        this.setScrollPosition(overviewPosition, thumbPosition);
+        if(animate)
+          this.setScrollPositionWithAnimation(overviewPosition, thumbPosition);
+        else
+          this.setScrollPosition(overviewPosition, thumbPosition);
         if (oldScrollPercent != this.scrollPercent)
           this.triggerCustomScroll(oldScrollPercent);
       },
@@ -470,7 +474,16 @@
 
       setScrollPosition:function (overviewPosition, thumbPosition) {
         this.$thumb.css(this.sizing.offsetComponent(), thumbPosition + "px");
-        this.scrollable.$overview.css(this.sizing.offsetComponent(), -overviewPosition + "px");
+        this.scrollable.$overview.css(this.sizing.offsetComponent(), -overviewPosition + "px");      
+      },
+
+      setScrollPositionWithAnimation:function (overviewPosition, thumbPosition) {
+        var thumbAnimationOpts = {};
+        var overviewAnimationOpts = {};
+        thumbAnimationOpts[this.sizing.offsetComponent()] = thumbPosition + "px";
+        this.$thumb.animate(thumbAnimationOpts, this.scrollable.options.animationSpeed);
+        overviewAnimationOpts[this.sizing.offsetComponent()] = -overviewPosition + "px";
+        this.scrollable.$overview.animate(overviewAnimationOpts, this.scrollable.options.animationSpeed);
       },
 
       calculateMaxThumbPosition:function () {
@@ -493,7 +506,7 @@
           var elementOffset = $element.offset();
           var overviewOffset = this.scrollable.$overview.offset();
           var viewPortOffset = this.scrollable.$viewPort.offset();
-          this.scrollTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()]);
+          this.scrollTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()], true);
         }
       },
       

@@ -18,12 +18,11 @@ To use the plugin you obviously need jQuery (it should work in jQuery 1.4 and la
 
 h2. Download
 
-You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/raw/master/build/jquery-custom-scrollbar-0.5.2.zip
+You can download the latest version "here":https://github.com/mzubala/jquery-custom-scrollbar/raw/master/build/jquery-custom-scrollbar-0.5.3.zip
 
 h2. Demos
 
-In <code>demos</code> folder of this repo, there are some example usages of custom scrollbar and its api. The demos are also
-available online "here":http://jquery-custom-scrollbar.rocketmind.pl/
+In <code>demos</code> folder of this repo, there are some example usages of custom scrollbar and its api. The demos are also available online "here":http://jquery-custom-scrollbar.rocketmind.pl/
 
 h2. Usage
 
@@ -54,8 +53,7 @@ Add a skin class to your container:
 </div>
 </pre></code>
 
-In the example we use <code>default-skin</code>. Plugin comes with two other predefined skins: <code>gray-skin</code> and <code>modern-skin</code>.
-You are not limited to that and you can style scrollbar your own way.
+In the example we use <code>default-skin</code>. Plugin comes with two other predefined skins: <code>gray-skin</code> and <code>modern-skin</code>. You are not limited to that and you can style scrollbar your own way.
 
 Finally call this js code:
 
@@ -82,15 +80,20 @@ h2. Options
 There are some options you can pass when initializing scrollbar:
 
 |_. Option |_. Type|_. Default value |_. Description |
-| <code>skin</code>|<code>String</code>|<code>undefined</code>|A css skin class that will be added to the scrolled container. You can define it in html as well as here in options. Note that skin has to be defined in one of those ways.|
+| <code>animationSpeed</code> | <code>Integer</code> | <code>300</code> | Speed of the animation of programatic scrolling.|
 | <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
-| <code>vScroll</code> | <code>Boolean</code> | <code>true</code> | Same as above but applies to vertical scrollbar. |
+| <code>skin</code>|<code>String</code>|<code>undefined</code>|A css skin class that will be added to the scrolled container. You can define it in html as well as here in options. Note that skin has to be defined in one of those ways.|
 | <code>updateOnWindowResize</code> | <code>Boolean</code> | <code>false</code> | Indicates whether scrollbar should recalculate thumb size when window is resized. See <code>demos/resize.html</code> for an example.|
+| <code>vScroll</code> | <code>Boolean</code> | <code>true</code> | Same as above but applies to vertical scrollbar. |
 
 For example:
 
 <pre><code>
-$("#my-container").customScrollbar({skin: "default-skin", hScroll: false, updateOnWindowResize: true})
+$("#my-container").customScrollbar({
+  skin: "default-skin", 
+  hScroll: false,
+  updateOnWindowResize: true
+  })
 </pre></code>
 
 h2. API
@@ -99,7 +102,7 @@ There are some methods of the plugin you may want to call.
 
 h3. scrollTo(element)
 
-Scrolls viewport to a given element inside scrolled content. An element might be jQuery object or a selector string. Example usage:
+Scrolls viewport to a given element inside scrolled content. An element might be jQuery object or a selector string. To controll animation speed use <code>animationSpeed</code> initialization option. Example usage:
 
 <pre><code>
 $(".container").customScrollbar("scrollTo", "#some-element-inside-container")
@@ -107,7 +110,7 @@ $(".container").customScrollbar("scrollTo", "#some-element-inside-container")
 
 h3. scrollToX(x)
 
-Sets horizontal scrollbar position to <code>x</code> pixels. <code>x</code> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end.
+Sets horizontal scrollbar position to <code>x</code> pixels. <code>x</code> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end. To controll animation speed use <code>animationSpeed</code> initialization option.
 
 <pre><code>
 $(".container").customScrollbar("scrollToX", 100)
@@ -115,7 +118,7 @@ $(".container").customScrollbar("scrollToX", 100)
 
 h3. scrollToY(y)
 
-Sets vertical scrollbar position to <code>y</code> pixels. <code>x</code> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end.
+Sets vertical scrollbar position to <code>y</code> pixels. <code>x</code> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end. To controll animation speed use <code>animationSpeed</code> initialization option.
 
 <pre><code>
 $(".container").customScrollbar("scrollToY", 200)

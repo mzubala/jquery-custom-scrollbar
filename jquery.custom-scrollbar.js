@@ -22,9 +22,6 @@
       if (this.options.hScroll)
         this.hScrollbar = new Scrollbar(this, new HSizing());
       this.$element.data("scrollable", this);
-      if (window.jQueryCustomScrollbars == undefined)
-        window.jQueryCustomScrollbars = [];
-      this.addToScrollbarsHierarchy();
       this.initKeyboardScrolling();
       this.bindEvents();
     }
@@ -58,13 +55,13 @@
       addScrollBarComponents:function () {
         this.assignViewPort();
         if (this.$viewPort.length == 0) {
-          this.$element.wrapInner("<div class=\"viewport\" />")
+          this.$element.wrapInner("<div class=\"viewport\" />");
           this.assignViewPort();
           this.viewPortAdded = true;
         }
         this.assignOverview();
         if (this.$overview.length == 0) {
-          this.$viewPort.wrapInner("<div class=\"overview\" />")
+          this.$viewPort.wrapInner("<div class=\"overview\" />");
           this.assignOverview();
           this.overviewAdded = true;
         }
@@ -135,7 +132,6 @@
         this.removeSkinClass();
         this.removeScrollbarComponents();
         this.$element.data("scrollable", null);
-        window.jQueryCustomScrollbars = null;
         this.removeKeyboardScrolling();
         if(this.vScrollbar)
           this.vScrollbar.remove();
@@ -153,67 +149,42 @@
           (elementOffset.left + $element.width() <= wrappingElementOffset.left + $wrappingElement.width())
       },
 
-      addNested:function (otherScrollable) {
-        if (this.addNestedToOneFromList(this.nestedScrollbars, otherScrollable))
-          return true;
-        else if (this.isInside(otherScrollable.$viewPort, this.$overview)) {
-          this.nestedScrollbars.push(otherScrollable);
-          return true;
-        }
-        else
-          return false;
-      },
-
-      addToScrollbarsHierarchy:function () {
-        this.nestedScrollbars = [];
-        if (!this.addNestedToOneFromList(this, window.jQueryCustomScrollbars))
-          window.jQueryCustomScrollbars.push(this);
-      },
-
-      addNestedToOneFromList:function (scrollable, list) {
-        for (var i = 0; i < list.length; i++) {
-          if (list[i].addNested(scrollable))
-            return true;
-          else if (scrollable.addNested(list[i])) {
-            list[i] = scrollable;
-            return true;
-          }
-        }
-        return false;
-      },
-
-      isMouseOver:function () {
-        for (var i = 0; i < this.nestedScrollbars.length; i++)
-          if (this.nestedScrollbars[i].isMouseOver())
-            return false;
-        var offset = this.$element.offset();
-        var w = this.$element.width();
-        var h = this.$element.height();
-        return this.lastMouseEvent &&
-          (this.lastMouseEvent.pageX >= offset.left) && (this.lastMouseEvent.pageX <= offset.left + w) &&
-          (this.lastMouseEvent.pageY >= offset.top) && (this.lastMouseEvent.pageY <= offset.top + h);
-      },
-
       initKeyboardScrolling:function () {
         var _this = this;
-        this.documentKeydown = function (event) {
-          if (_this.isMouseOver()) {
+        
+        // keydown handler
+        this.elementKeydown = function (event) {
             if (_this.vScrollbar)
               _this.vScrollbar.keyScroll(event);
             if (_this.hScrollbar)
               _this.hScrollbar.keyScroll(event);
-          }
         }
-        $(document).keydown(this.documentKeydown);
-        this.documentMousemove = function (event) {
-          _this.lastMouseEvent = event;
-        } 
-        $(document).mousemove(this.documentMousemove);
+        
+        // hover handlers
+        /*this.elementMouseenter = function (event) {
+        	if (!$(document.activeElement).is('select, input, textarea')) {
+        		_this.$element.focus();
+			}
+		}
+		this.elementMouseleave = function (event) {
+			if (document.activeElement === this) {
+        		_this.$element.blur();
+			}
+		}*/
+		
+		// bind events
+		this.$element
+			.attr('tabindex', '-1')
+			.keydown(this.elementKeydown);
+        	//.hover(this.elementMouseenter, this.elementMouseleave);
       },
       
       removeKeyboardScrolling: function() {
-        $(document).unbind("keydown", this.documentKeydown);
-        $(document).unbind("mousemove", this.documentMousemove);
+        this.$element
+        	.removeAttr('tabindex')
+        	.unbind("keydown", this.elementKeydown);
+        	//.unbind("mouseenter", this.elementMouseenter)
+        	//.unbind("mouseleave", this.elementMouseleave);
       },
 
       bindEvents:function () {
@@ -290,8 +261,7 @@
         this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
           if (_this.enabled) {
             _this.mouseWheelScroll(deltaX, deltaY);
-            event.preventDefault();
-            event.stopPropagation();
+            return false; // preventDefault and stopPropagation
           }
         });
       },
@@ -396,14 +366,14 @@
       },
 
       startTouchScrolling:function (event) {
-        if (event.touches && event.touches.length > 0) {
+        if (event.touches && event.touches.length == 1) {
           this.setScrollEvent(event.touches[0]);
           this.touchScrolling = true;
         }
       },
 
       touchScroll:function (event) {
-        if (this.touchScrolling && event.touches && event.touches.length > 0) {
+        if (this.touchScrolling && event.touches && event.touches.length == 1) {
           this.moveScroll(event.touches[0], -this.ratio);
           event.preventDefault();
         }

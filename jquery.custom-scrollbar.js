@@ -248,7 +248,7 @@
         this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
           if (_this.enabled) {
             _this.mouseWheelScroll(deltaX, deltaY);
-            return false; // preventDefault and stopPropagation
+            return false;
           }
         });
       },
@@ -323,7 +323,6 @@
 
       startMouseMoveScrolling: function (event) {
         this.mouseMoveScrolling = true;
-        f
         $("html").addClass("not-selectable");
         this.setUnselectable($("html"), "on");
         this.setScrollEvent(event);

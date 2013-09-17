@@ -396,14 +396,14 @@
       },
 
       startTouchScrolling:function (event) {
-        if (event.touches && event.touches.length > 0) {
+        if (event.touches && event.touches.length == 1) {
           this.setScrollEvent(event.touches[0]);
           this.touchScrolling = true;
         }
       },
 
       touchScroll:function (event) {
-        if (this.touchScrolling && event.touches && event.touches.length > 0) {
+        if (this.touchScrolling && event.touches && event.touches.length == 1) {
           this.moveScroll(event.touches[0], -this.ratio);
           event.preventDefault();
         }

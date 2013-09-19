@@ -152,14 +152,12 @@
       initKeyboardScrolling: function () {
         var _this = this;
 
-        // keydown handler
         this.elementKeydown = function (event) {
-          if (!$(document.activeElement).is('select, input, textarea')) {
+          if (document.activeElement === _this.$element[0]) {
             if (_this.vScrollbar)
               _this.vScrollbar.keyScroll(event);
             if (_this.hScrollbar)
               _this.hScrollbar.keyScroll(event);
-            return false;
           }
         }
 

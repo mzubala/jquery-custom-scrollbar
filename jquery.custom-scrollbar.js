@@ -202,7 +202,7 @@
         this.overviewSize = this.sizing.size(this.scrollable.$overview);
         this.ratio = this.viewPortSize / this.overviewSize;
         this.sizing.size(this.$scrollBar, this.viewPortSize);
-        this.thumbSize = Math.round(this.ratio * this.viewPortSize);
+        this.thumbSize = Math.max(Math.round(this.ratio * this.viewPortSize), this.sizing.minSize(this.$thumb));
         this.sizing.size(this.$thumb, this.thumbSize);
         this.maxThumbPosition = this.calculateMaxThumbPosition();
         this.maxOverviewPosition = this.calculateMaxOverviewPosition();
@@ -346,7 +346,7 @@
 
       moveScroll: function (event, turn) {
         var delta = this.sizing.mouseDelta(this.scrollEvent, event) * turn;
-        this.scrollBy(Math.round(delta * this.overviewSize / this.viewPortSize));
+        this.scrollBy(delta * this.overviewSize / this.viewPortSize);
         this.setScrollEvent(event);
       },
 
@@ -486,6 +486,10 @@
           return $el.width();
       },
 
+      minSize: function ($el) {
+        return parseInt($el.css("min-width")) || 0;
+      },
+
       scrollBar: function ($el) {
         return $el.find(".scroll-bar.horizontal");
       },
@@ -534,11 +538,16 @@
     }
 
     VSizing.prototype = {
+
       size: function ($el, arg) {
         if (arg)
           return $el.height(arg);
         else
           return $el.height();
+      },
+
+      minSize: function ($el) {
+        return parseInt($el.css("min-height")) || 0;
       },
 
       scrollBar: function ($el) {

@@ -36,10 +36,12 @@
 
 .scrollable .scroll-bar.vertical .thumb {
   width: 100%;
+  min-height: 10px;
 }
 
 .scrollable .scroll-bar.horizontal .thumb {
   height: 100%;
+  min-width: 10px;
   left: 0;
 }
 

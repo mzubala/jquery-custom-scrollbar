@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.scrollable:focus {
+  outline: 0;
+}
+
 .scrollable .viewport {
   position: relative;
   overflow: hidden;

@@ -119,12 +119,12 @@
 
       scrollToX: function (x) {
         if (this.hScrollbar)
-          this.hScrollbar.scrollTo(x, true);
+          this.hScrollbar.scrollOverviewTo(x, true);
       },
 
       scrollToY: function (y) {
         if (this.vScrollbar)
-          this.vScrollbar.scrollTo(y, true);
+          this.vScrollbar.scrollOverviewTo(y, true);
       },
 
       remove: function () {
@@ -346,7 +346,7 @@
 
       moveScroll: function (event, turn) {
         var delta = this.sizing.mouseDelta(this.scrollEvent, event) * turn;
-        this.scrollBy(delta * this.overviewSize / this.viewPortSize);
+        this.scrollThumbBy(delta);
         this.setScrollEvent(event);
       },
 
@@ -369,9 +369,9 @@
       },
 
       mouseWheelScroll: function (deltaX, deltaY) {
-        var delta = this.sizing.wheelDelta(deltaX, deltaY) * -20;
+        var delta = this.sizing.wheelDelta(deltaX, deltaY) * -10;
         if (delta != 0)
-          this.scrollBy(delta);
+          this.scrollThumbBy(delta);
       },
 
       mouseClickScroll: function (event) {
@@ -379,24 +379,39 @@
         if (event["page" + this.sizing.scrollAxis()] < this.$thumb.offset()[this.sizing.offsetComponent()])
         // mouse click over thumb
           delta = -delta;
-        this.scrollBy(delta);
+        this.scrollOverviewBy(delta);
       },
 
       keyScroll: function (event) {
         var keyDown = event.which;
         if (this.enabled && this.isKeyScrolling(keyDown)) {
-          this.scrollBy(this.keyScrollDelta(keyDown));
+          this.scrollOverviewBy(this.keyScrollDelta(keyDown));
           event.preventDefault();
         }
       },
 
-      scrollBy: function (delta) {
-        var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
-        overviewPosition += delta;
-        this.scrollTo(overviewPosition, false);
+      scrollThumbBy: function (delta) {
+        var thumbPosition = this.$thumb.position()[this.sizing.offsetComponent()];
+        thumbPosition += delta;
+        if (thumbPosition < 0)
+          thumbPosition = 0;
+        if (thumbPosition > this.maxThumbPosition)
+          thumbPosition = this.maxThumbPosition;
+        var oldScrollPercent = this.scrollPercent;
+        this.scrollPercent = thumbPosition / this.maxThumbPosition;
+        var overviewPosition = (thumbPosition * this.maxOverviewPosition) / this.maxThumbPosition;
+        this.setScrollPosition(overviewPosition, thumbPosition);
+        if (oldScrollPercent != this.scrollPercent)
+          this.triggerCustomScroll(oldScrollPercent);
       },
 
-      scrollTo: function (overviewPosition, animate) {
+      scrollOverviewBy: function (delta) {
+        var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
+        overviewPosition += delta;
+        this.scrollOverviewTo(overviewPosition, false);
+      },
+
+      scrollOverviewTo: function (overviewPosition, animate) {
         if (overviewPosition < 0)
           overviewPosition = 0;
         if (overviewPosition > this.maxOverviewPosition)
@@ -461,7 +476,7 @@
           var elementOffset = $element.offset();
           var overviewOffset = this.scrollable.$overview.offset();
           var viewPortOffset = this.scrollable.$viewPort.offset();
-          this.scrollTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()], true);
+          this.scrollOverviewTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()], true);
         }
       },
 

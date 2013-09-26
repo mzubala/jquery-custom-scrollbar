@@ -126,10 +126,9 @@ $(".container").customScrollbar("scrollToY", 200)
 
 h3. resize(keepPosition)
 
-Recalculates and sets sizes of all scrollbar components. Call this whenever your scrolled block changes its size and
-scrollbar becomes invalid. After you call it scrollbar is adjusted to new sizes of your block.
+Recalculates and sets sizes of all scrollbar components. Call this whenever your scrolled block changes its size and scrollbar becomes invalid. After you call it scrollbar is adjusted to new sizes of your block.
 
-Use <code>keepPosition</code> to decide if the scrollbar should stay in the same position (<code>keepPosition == true</code>) or change position (<code>keepPosition == true</code>) so that the thumb position change is proportional to the size change. The first case is useful if your container changes size and you want to show exactly the same content that was visible before size change. The second case is useful when you're listening to window resize.
+Use <code>keepPosition</code> parameter to decide if the scrollbar should stay in the same position (<code>keepPosition == true</code>) or change position (<code>keepPosition == true</code>) so that the thumb position change is proportional to the size change. The first case is useful if your container changes size and you want to show exactly the same content that was visible before size change. The second case is useful when you're listening to window resize.
 
 <pre><code>
 $(".container").customScrollbar("resize")

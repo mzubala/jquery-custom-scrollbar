@@ -1,7 +1,8 @@
 (function ($) {
 
-  $.fn.customScrollbar = function (options, args) {
+  $.fn.customScrollbar = function (options) {
 
+    var args = Array.prototype.slice.call(arguments, 1);
     var defaultOptions = {
       skin: undefined,
       hScroll: true,
@@ -105,26 +106,34 @@
           this.hScrollbar.resize();
       },
 
-      scrollTo: function (element) {
+      scrollTo: function (element, animate) {
+        if (typeof animate == 'undefined')
+          animate = true;
         if (this.vScrollbar)
-          this.vScrollbar.scrollToElement(element);
+          this.vScrollbar.scrollToElement(element, animate);
         if (this.hScrollbar)
-          this.hScrollbar.scrollToElement(element);
+          this.hScrollbar.scrollToElement(element, animate);
       },
 
-      scrollToXY: function (x, y) {
-        this.scrollToX(x);
-        this.scrollToY(y);
+      scrollToXY: function (x, y, animate) {
+        if (typeof animate == 'undefined')
+          animate = true;
+        this.scrollToX(x, animate);
+        this.scrollToY(y, animate);
       },
 
-      scrollToX: function (x) {
+      scrollToX: function (x, animate) {
+        if (typeof animate == 'undefined')
+          animate = true;
         if (this.hScrollbar)
-          this.hScrollbar.scrollOverviewTo(x, true);
+          this.hScrollbar.scrollOverviewTo(x, animate);
       },
 
-      scrollToY: function (y) {
+      scrollToY: function (y, animate) {
+        if (typeof animate == 'undefined')
+          animate = true;
         if (this.vScrollbar)
-          this.vScrollbar.scrollOverviewTo(y, true);
+          this.vScrollbar.scrollOverviewTo(y, animate);
       },
 
       remove: function () {
@@ -470,13 +479,13 @@
           this.scrollEvent = {pageX: event.pageX, pageY: event.pageY};
       },
 
-      scrollToElement: function (element) {
+      scrollToElement: function (element, animate) {
         var $element = element;
         if (this.sizing.isInside($element, this.scrollable.$overview) && !this.sizing.isInside($element, this.scrollable.$viewPort)) {
           var elementOffset = $element.offset();
           var overviewOffset = this.scrollable.$overview.offset();
           var viewPortOffset = this.scrollable.$viewPort.offset();
-          this.scrollOverviewTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()], true);
+          this.scrollOverviewTo(elementOffset[this.sizing.offsetComponent()] - overviewOffset[this.sizing.offsetComponent()], animate);
         }
       },
 
@@ -620,8 +629,9 @@
         options = defaultOptions;
       if (typeof(options) == "string") {
         var scrollable = $(this).data("scrollable");
-        if (scrollable)
-          scrollable[options](args);
+        if (scrollable) {
+          scrollable[options].apply(scrollable, args);
+        }
       }
       else if (typeof(options) == "object") {
         options = $.extend(defaultOptions, options);

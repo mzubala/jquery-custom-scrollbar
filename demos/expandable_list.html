@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JQuery Custom Scrollbar - basic usage demo</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="../jquery.custom-scrollbar.js"></script>
+    <link type="text/css" rel="stylesheet" href="../jquery.custom-scrollbar.css"/>
+    <style type="text/css">
+
+        /*Vertical scrollbar - set width and height of a div you want to add a scrollbar to*/
+        #vertical-scrollbar-demo {
+            height: 300px;
+            width: 400px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            margin: 0
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>JQuery Custom Scrollbar - list with expandable items demo</h1>
+
+<!-- Add a skin class to the scrolled div: gray-skin in this case -->
+<div id="vertical-scrollbar-demo" class="gray-skin demo">
+<ul>
+<li>
+    Item 1
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 2
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 3
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 4
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 5
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 6
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 7
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 8
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+<li>
+    Item 9
+    <a href="#expand">Expand</a>
+
+    <div class="hidden to-expand">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+        lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+        Quisque
+        semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+        posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+        tempus
+        metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+        Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+        eget
+        nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+        in
+        interdum massa nibh nec erat.
+    </div>
+</li>
+</ul>
+</div>
+
+
+<script type="text/javascript">
+    $(window).load(function () {
+        $(".demo").customScrollbar();
+        $("ul li a").click(function () {
+            var toExpand = $(this).siblings(".to-expand");
+            var link = $(this);
+            if (toExpand.is(":visible"))
+                toExpand.slideUp(200, function () {
+                    resizeAndScroll(link);
+                });
+            else
+                toExpand.slideDown(200, function () {
+                    resizeAndScroll(link);
+                });
+        });
+    });
+
+    function resizeAndScroll(elem) {
+        $(".demo").customScrollbar("resize", true)
+    }
+
+</script>
+</body>
+</html>

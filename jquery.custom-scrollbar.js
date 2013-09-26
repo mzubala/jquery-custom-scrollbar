@@ -98,11 +98,11 @@
         }
       },
 
-      resize: function () {
+      resize: function (keepPosition) {
         if (this.vScrollbar)
-          this.vScrollbar.resize();
+          this.vScrollbar.resize(keepPosition);
         if (this.hScrollbar)
-          this.hScrollbar.resize();
+          this.hScrollbar.resize(keepPosition);
       },
 
       scrollTo: function (element) {
@@ -195,7 +195,7 @@
 
     Scrollbar.prototype = {
 
-      resize: function () {
+      resize: function (keepPosition) {
         this.scrollable.$viewPort.height(this.scrollable.$element.height());
         this.sizing.size(this.scrollable.$viewPort, this.sizing.size(this.scrollable.$element));
         this.viewPortSize = this.sizing.size(this.scrollable.$viewPort);
@@ -210,7 +210,7 @@
         if (this.scrollPercent === undefined)
           this.scrollPercent = 0.0;
         if (this.enabled)
-          this.rescroll();
+          this.rescroll(keepPosition);
         else
           this.setScrollPosition(0, 0);
         this.$scrollBar.toggle(this.enabled);
@@ -391,12 +391,9 @@
       },
 
       scrollThumbBy: function (delta) {
-        var thumbPosition = this.$thumb.position()[this.sizing.offsetComponent()];
+        var thumbPosition = this.thumbPosition();
         thumbPosition += delta;
-        if (thumbPosition < 0)
-          thumbPosition = 0;
-        if (thumbPosition > this.maxThumbPosition)
-          thumbPosition = this.maxThumbPosition;
+        thumbPosition = this.positionOrMax(thumbPosition, this.maxThumbPosition);
         var oldScrollPercent = this.scrollPercent;
         this.scrollPercent = thumbPosition / this.maxThumbPosition;
         var overviewPosition = (thumbPosition * this.maxOverviewPosition) / this.maxThumbPosition;
@@ -405,17 +402,21 @@
           this.triggerCustomScroll(oldScrollPercent);
       },
 
+      thumbPosition: function () {
+        return this.$thumb.position()[this.sizing.offsetComponent()];
+      },
+
       scrollOverviewBy: function (delta) {
-        var overviewPosition = -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
-        overviewPosition += delta;
+        var overviewPosition = this.overviewPosition() + delta;
         this.scrollOverviewTo(overviewPosition, false);
       },
 
+      overviewPosition: function () {
+        return -this.scrollable.$overview.position()[this.sizing.offsetComponent()];
+      },
+
       scrollOverviewTo: function (overviewPosition, animate) {
-        if (overviewPosition < 0)
-          overviewPosition = 0;
-        if (overviewPosition > this.maxOverviewPosition)
-          overviewPosition = this.maxOverviewPosition;
+        overviewPosition = this.positionOrMax(overviewPosition, this.maxOverviewPosition);
         var oldScrollPercent = this.scrollPercent;
         this.scrollPercent = overviewPosition / this.maxOverviewPosition;
         var thumbPosition = this.scrollPercent * this.maxThumbPosition;
@@ -427,6 +428,15 @@
           this.triggerCustomScroll(oldScrollPercent);
       },
 
+      positionOrMax: function (p, max) {
+        if (p < 0)
+          return 0;
+        else if (p > max)
+          return max;
+        else
+          return p;
+      },
+
       triggerCustomScroll: function (oldScrollPercent) {
         this.scrollable.$element.trigger("customScroll", {
             scrollAxis: this.sizing.scrollAxis(),
@@ -436,10 +446,18 @@
         );
       },
 
-      rescroll: function () {
-        var thumbPosition = this.scrollPercent * this.maxThumbPosition;
-        var overviewPosition = this.scrollPercent * this.maxOverviewPosition;
-        this.setScrollPosition(overviewPosition, thumbPosition);
+      rescroll: function (keepPosition) {
+        if (keepPosition) {
+          var overviewPosition = this.positionOrMax(this.overviewPosition(), this.maxOverviewPosition);
+          this.scrollPercent = overviewPosition / this.maxOverviewPosition;
+          var thumbPosition = this.scrollPercent * this.maxThumbPosition;
+          this.setScrollPosition(overviewPosition, thumbPosition);
+        }
+        else {
+          var thumbPosition = this.scrollPercent * this.maxThumbPosition;
+          var overviewPosition = this.scrollPercent * this.maxOverviewPosition;
+          this.setScrollPosition(overviewPosition, thumbPosition);
+        }
       },
 
       setScrollPosition: function (overviewPosition, thumbPosition) {

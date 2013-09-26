@@ -131,7 +131,7 @@ Recalculates and sets sizes of all scrollbar components. Call this whenever your
 Use <code>keepPosition</code> parameter to decide if the scrollbar should stay in the same position (<code>keepPosition == true</code>) or change position (<code>keepPosition == true</code>) so that the thumb position change is proportional to the size change. The first case is useful if your container changes size and you want to show exactly the same content that was visible before size change. The second case is useful when you're listening to window resize.
 
 <pre><code>
-$(".container").customScrollbar("resize")
+$(".container").customScrollbar("resize", true)
 </pre></code>
 
 h3. remove()

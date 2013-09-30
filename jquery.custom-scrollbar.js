@@ -489,7 +489,7 @@
       },
 
       scrollToElement: function (element) {
-        var $element = element;
+        var $element = $(element);
         if (this.sizing.isInside($element, this.scrollable.$overview) && !this.sizing.isInside($element, this.scrollable.$viewPort)) {
           var elementOffset = $element.offset();
           var overviewOffset = this.scrollable.$overview.offset();

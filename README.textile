@@ -100,25 +100,26 @@ h2. API
 
 There are some methods of the plugin you may want to call.
 
-h3. scrollTo(element)
+h3. scrollTo(element [, animate])
 
-Scrolls viewport to a given element inside scrolled content. An element might be jQuery object or a selector string. To controll animation speed use <code>animationSpeed</code> initialization option. Example usage:
+Scrolls viewport to a given element inside scrolled content. An element might be jQuery object or a selector string. Second parameter specifies whether to use animation (default: <code>true</code>). To controll animation speed use <code>animationSpeed</code> initialization option.
+Example usage:
 
 <pre><code>
 $(".container").customScrollbar("scrollTo", "#some-element-inside-container")
 </pre></code>
 
-h3. scrollToX(x)
+h3. scrollToX(x [, animate])
 
-Sets horizontal scrollbar position to <code>x</code> pixels. <code>x</code> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end. To controll animation speed use <code>animationSpeed</code> initialization option.
+Sets horizontal scrollbar position to <code>x</code> pixels. <code>x</code> should be in range from 0 to scrolled content width. If it's outside that range, content will be scrolled to the start or to the end. Second parameter specifies whether to use animation (default: <code>true</code>). To controll animation speed use <code>animationSpeed</code> initialization option.
 
 <pre><code>
 $(".container").customScrollbar("scrollToX", 100)
 </pre></code>
 
-h3. scrollToY(y)
+h3. scrollToY(y [, animate])
 
-Sets vertical scrollbar position to <code>y</code> pixels. <code>x</code> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end. To controll animation speed use <code>animationSpeed</code> initialization option.
+Sets vertical scrollbar position to <code>y</code> pixels. <code>x</code> should be in range from 0 to scrolled content height. If it's outside that range, content will be scrolled to the start or to the end. Second parameter specifies whether to use animation (default: <code>true</code>). To controll animation speed use <code>animationSpeed</code> initialization option.
 
 <pre><code>
 $(".container").customScrollbar("scrollToY", 200)

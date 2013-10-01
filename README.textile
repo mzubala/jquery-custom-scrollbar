@@ -100,6 +100,19 @@ h2. API
 
 There are some methods of the plugin you may want to call.
 
+h3. setAnimationSpeed(speed)
+
+Changes programmatic scroll animation speed to the passed <code>speed</code> - an integer indicating how many milliseconds the animation should last.
+
+It's also possible to set the animation speed upon plugin initialization. By default it equals <code>300</code>.
+
+Note that you may use this method if want to have some scrolls animated and some without animation - to get rid of the animation just call it with <code>0</code>.
+
+<pre><code>
+$(".container").customScrollbar("setAnimationSpeed", 200)
+</pre></code>
+
+
 h3. scrollTo(element)
 
 Scrolls viewport to a given element inside scrolled content. An element might be jQuery object or a selector string. To controll animation speed use <code>animationSpeed</code> initialization option. Example usage:

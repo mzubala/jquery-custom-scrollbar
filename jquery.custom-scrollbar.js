@@ -139,6 +139,10 @@
           this.hScrollbar.remove();
       },
 
+      setAnimationSpeed: function (speed) {
+        this.options.animationSpeed = speed;
+      },
+
       isInside: function (element, wrappingElement) {
         var $element = $(element);
         var $wrappingElement = $(wrappingElement);

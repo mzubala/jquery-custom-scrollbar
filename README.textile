@@ -166,7 +166,7 @@ $(".container").on("customScroll", function(event, scrollData) {});
 </pre></code>
 
 Handler function takes two arguments. <code>event</code> is standard jquery event object. <code>scrollData</code> is an object with 3 fields holding scroll specific information:
-* <code>scrollPercent</code> - integer in range 0..100 indicating percentage position of the scrollbar
+* <code>scrollPercent</code> - floating point number in range 0.0 to 100.0 indicating percentage position of the scrollbar
 * <code>scrollDirection</code> - string that can take following 4 values: <code>left</code>, <code>right</code>, <code>up</code>, <code>down</code> - indicates what direction the scrollbar was moved in
 * <code>scrollAxis</code> - string indicating which scrollbar was moved: <code>X</code> for horizontal scrollbar and <code>Y</code> for vertical scrollbar
 

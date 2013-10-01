@@ -441,7 +441,7 @@
         this.scrollable.$element.trigger("customScroll", {
             scrollAxis: this.sizing.scrollAxis(),
             direction: this.sizing.scrollDirection(oldScrollPercent, this.scrollPercent),
-            scrollPercent: Math.round(this.scrollPercent * 100)
+            scrollPercent: this.scrollPercent * 100
           }
         );
       },

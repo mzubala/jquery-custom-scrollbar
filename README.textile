@@ -80,7 +80,7 @@ h2. Options
 There are some options you can pass when initializing scrollbar:
 
 |_. Option |_. Type|_. Default value |_. Description |
-| <code>animationSpeed</code> | <code>Integer</code> | <code>300</code> | Speed of the animation of programatic scrolling.|
+| <code>animationSpeed</code> | <code>Integer</code> | <code>300</code> | Speed of the animation of programmatic scrolling. It's possible to edit it with <code>setAnimationSpeed</code> method. Animation speed equal to <code>0</code> means no animation.|
 | <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
 | <code>skin</code>|<code>String</code>|<code>undefined</code>|A css skin class that will be added to the scrolled container. You can define it in html as well as here in options. Note that skin has to be defined in one of those ways.|
 | <code>updateOnWindowResize</code> | <code>Boolean</code> | <code>false</code> | Indicates whether scrollbar should recalculate thumb size when window is resized. See <code>demos/resize.html</code> for an example.|

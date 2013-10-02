@@ -83,8 +83,10 @@ There are some options you can pass when initializing scrollbar:
 | <code>animationSpeed</code> | <code>Integer</code> | <code>300</code> | Speed of the animation of programmatic scrolling. It's possible to edit it with <code>setAnimationSpeed</code> method. Animation speed equal to <code>0</code> means no animation.|
 | <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
 | <code>skin</code>|<code>String</code>|<code>undefined</code>|A css skin class that will be added to the scrolled container. You can define it in html as well as here in options. Note that skin has to be defined in one of those ways.|
+| <code>swipeSpeed</code>|<code>Integer</code>|<code>1</code>|Indicates how fast touch scroll should be. When you swipe your finger by <code>x</code> pixels the content will be scrolled by <code>swipeSpeed * x</code> pixels.|
 | <code>updateOnWindowResize</code> | <code>Boolean</code> | <code>false</code> | Indicates whether scrollbar should recalculate thumb size when window is resized. See <code>demos/resize.html</code> for an example.|
 | <code>vScroll</code> | <code>Boolean</code> | <code>true</code> | Same as above but applies to vertical scrollbar. |
+| <code>wheelSpeed</code>|<code>Integer</code>|<code>40</code>|Indicates how fast mouse wheel scroll should be. When you make the smallest possible mouse wheel move, the content will be scrolled by <code>wheelSpeed</code> pixels.|
 
 For example:
 

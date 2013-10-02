@@ -8,7 +8,9 @@
       vScroll: true,
       updateOnWindowResize: false,
       animationSpeed: 300,
-      onCustomScroll: undefined
+      onCustomScroll: undefined,
+      swipeSpeed: 1,
+      wheelSpeed: 40
     }
 
     var Scrollable = function (element, options) {
@@ -361,7 +363,7 @@
 
       touchScroll: function (event) {
         if (this.touchScrolling && event.touches && event.touches.length == 1) {
-          var delta = -this.sizing.mouseDelta(this.scrollEvent, event.touches[0]);
+          var delta = -this.sizing.mouseDelta(this.scrollEvent, event.touches[0]) * this.scrollable.options.swipeSpeed;
           this.scrollOverviewBy(delta);
           this.setScrollEvent(event.touches[0]);
           event.stopPropagation();
@@ -375,9 +377,9 @@
       },
 
       mouseWheelScroll: function (deltaX, deltaY) {
-        var delta = this.sizing.wheelDelta(deltaX, deltaY) * -10;
+        var delta = -this.sizing.wheelDelta(deltaX, deltaY) * this.scrollable.options.wheelSpeed;
         if (delta != 0)
-          this.scrollThumbBy(delta);
+          this.scrollOverviewBy(delta);
       },
 
       mouseClickScroll: function (event) {

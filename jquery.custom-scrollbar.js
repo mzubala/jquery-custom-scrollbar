@@ -344,32 +344,34 @@
       },
 
       mouseMoveScroll: function (event) {
-        if (this.mouseMoveScrolling)
-          this.moveScroll(event, 1);
-      },
-
-      moveScroll: function (event, turn) {
-        var delta = this.sizing.mouseDelta(this.scrollEvent, event) * turn;
-        this.scrollThumbBy(delta);
-        this.setScrollEvent(event);
+        if (this.mouseMoveScrolling) {
+          var delta = this.sizing.mouseDelta(this.scrollEvent, event);
+          this.scrollThumbBy(delta);
+          this.setScrollEvent(event);
+        }
       },
 
       startTouchScrolling: function (event) {
         if (event.touches && event.touches.length == 1) {
           this.setScrollEvent(event.touches[0]);
           this.touchScrolling = true;
+          event.stopPropagation();
         }
       },
 
       touchScroll: function (event) {
         if (this.touchScrolling && event.touches && event.touches.length == 1) {
-          this.moveScroll(event.touches[0], -this.ratio);
+          var delta = -this.sizing.mouseDelta(this.scrollEvent, event.touches[0]);
+          this.scrollOverviewBy(delta);
+          this.setScrollEvent(event.touches[0]);
+          event.stopPropagation();
           event.preventDefault();
         }
       },
 
       stopTouchScrolling: function (event) {
         this.touchScrolling = false;
+        event.stopPropagation();
       },
 
       mouseWheelScroll: function (deltaX, deltaY) {

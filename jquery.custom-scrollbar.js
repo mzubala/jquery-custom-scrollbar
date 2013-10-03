@@ -367,10 +367,10 @@
         if (this.touchScrolling && event.touches && event.touches.length == 1) {
           var delta = -this.sizing.mouseDelta(this.scrollEvent, event.touches[0]) * this.scrollable.options.swipeSpeed;
           var scrolled = this.scrollOverviewBy(delta);
-          this.setScrollEvent(event.touches[0]);
           if (scrolled) {
             event.stopPropagation();
             event.preventDefault();
+            this.setScrollEvent(event.touches[0]);
           }
         }
       },

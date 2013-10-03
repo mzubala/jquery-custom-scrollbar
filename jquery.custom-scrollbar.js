@@ -251,8 +251,10 @@
         var _this = this;
         this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
           if (_this.enabled) {
-            _this.mouseWheelScroll(deltaX, deltaY);
-            return false;
+            if (_this.mouseWheelScroll(deltaX, deltaY)) {
+              event.stopPropagation();
+              event.preventDefault();
+            }
           }
         });
       },
@@ -364,10 +366,12 @@
       touchScroll: function (event) {
         if (this.touchScrolling && event.touches && event.touches.length == 1) {
           var delta = -this.sizing.mouseDelta(this.scrollEvent, event.touches[0]) * this.scrollable.options.swipeSpeed;
-          this.scrollOverviewBy(delta);
+          var scrolled = this.scrollOverviewBy(delta);
           this.setScrollEvent(event.touches[0]);
-          event.stopPropagation();
-          event.preventDefault();
+          if (scrolled) {
+            event.stopPropagation();
+            event.preventDefault();
+          }
         }
       },
 
@@ -379,7 +383,7 @@
       mouseWheelScroll: function (deltaX, deltaY) {
         var delta = -this.sizing.wheelDelta(deltaX, deltaY) * this.scrollable.options.wheelSpeed;
         if (delta != 0)
-          this.scrollOverviewBy(delta);
+          return this.scrollOverviewBy(delta);
       },
 
       mouseClickScroll: function (event) {
@@ -393,8 +397,8 @@
       keyScroll: function (event) {
         var keyDown = event.which;
         if (this.enabled && this.isKeyScrolling(keyDown)) {
-          this.scrollOverviewBy(this.keyScrollDelta(keyDown));
-          event.preventDefault();
+          if (this.scrollOverviewBy(this.keyScrollDelta(keyDown)))
+            event.preventDefault();
         }
       },
 
@@ -406,8 +410,12 @@
         this.scrollPercent = thumbPosition / this.maxThumbPosition;
         var overviewPosition = (thumbPosition * this.maxOverviewPosition) / this.maxThumbPosition;
         this.setScrollPosition(overviewPosition, thumbPosition);
-        if (oldScrollPercent != this.scrollPercent)
+        if (oldScrollPercent != this.scrollPercent) {
           this.triggerCustomScroll(oldScrollPercent);
+          return true
+        }
+        else
+          return false;
       },
 
       thumbPosition: function () {
@@ -416,7 +424,7 @@
 
       scrollOverviewBy: function (delta) {
         var overviewPosition = this.overviewPosition() + delta;
-        this.scrollOverviewTo(overviewPosition, false);
+        return this.scrollOverviewTo(overviewPosition, false);
       },
 
       overviewPosition: function () {
@@ -432,8 +440,12 @@
           this.setScrollPositionWithAnimation(overviewPosition, thumbPosition);
         else
           this.setScrollPosition(overviewPosition, thumbPosition);
-        if (oldScrollPercent != this.scrollPercent)
+        if (oldScrollPercent != this.scrollPercent) {
           this.triggerCustomScroll(oldScrollPercent);
+          return true;
+        }
+        else
+          return false;
       },
 
       positionOrMax: function (p, max) {

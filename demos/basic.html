@@ -65,6 +65,16 @@
             min-width: 300px;
         }
 
+        #fixed-thumb-size-demo {
+            width: 400px;
+            height: 200px;
+        }
+
+            /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
+        #fixed-thumb-size-demo .overview {
+            width: 600px;
+        }
+
     </style>
 </head>
 <body>
@@ -162,9 +172,40 @@
     interdum massa nibh nec erat.
 </div>
 
+<h2>Fixed thumb size</h2>
+
+<!-- Add a skin class to the scrolled div: default-skin in this case -->
+<div id="fixed-thumb-size-demo" class="default-skin">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+    Quisque
+    semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+    posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+    tempus
+    metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+    Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+    eget
+    nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+    in
+    interdum massa nibh nec erat.
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
+    Quisque
+    semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed
+    posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel
+    tempus
+    metus leo non est. Etiam sit amet lectus quis est congue mollis. Phasellus congue lacus eget neque.
+    Phasellus ornare, ante vitae consectetuer consequat, purus sapien ultricies dolor, et mollis pede metus
+    eget
+    nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
+    in
+    interdum massa nibh nec erat.
+</div>
+
 <script type="text/javascript">
     $(window).load(function () {
         $(".demo").customScrollbar();
+        $("#fixed-thumb-size-demo").customScrollbar({fixedThumbHeight: 50, fixedThumbWidth: 60});
     });
 </script>
 </body>

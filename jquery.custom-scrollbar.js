@@ -10,7 +10,9 @@
       animationSpeed: 300,
       onCustomScroll: undefined,
       swipeSpeed: 1,
-      wheelSpeed: 40
+      wheelSpeed: 40,
+      fixedThumbWidth: undefined,
+      fixedThumbHeight: undefined
     }
 
     var Scrollable = function (element, options) {
@@ -208,7 +210,7 @@
         this.overviewSize = this.sizing.size(this.scrollable.$overview);
         this.ratio = this.viewPortSize / this.overviewSize;
         this.sizing.size(this.$scrollBar, this.viewPortSize);
-        this.thumbSize = Math.max(Math.round(this.ratio * this.viewPortSize), this.sizing.minSize(this.$thumb));
+        this.thumbSize = this.calculateThumbSize();
         this.sizing.size(this.$thumb, this.thumbSize);
         this.maxThumbPosition = this.calculateMaxThumbPosition();
         this.maxOverviewPosition = this.calculateMaxOverviewPosition();
@@ -220,6 +222,16 @@
         else
           this.setScrollPosition(0, 0);
         this.$scrollBar.toggle(this.enabled);
+      },
+
+      calculateThumbSize: function () {
+        var fixedSize = this.sizing.fixedThumbSize(this.scrollable.options)
+        var size;
+        if (fixedSize)
+          size = fixedSize;
+        else
+          size = this.ratio * this.viewPortSize
+        return Math.max(size, this.sizing.minSize(this.$thumb));
       },
 
       initMouseMoveScrolling: function () {
@@ -543,6 +555,10 @@
         return parseInt($el.css("min-width")) || 0;
       },
 
+      fixedThumbSize: function (options) {
+        return options.fixedThumbWidth;
+      },
+
       scrollBar: function ($el) {
         return $el.find(".scroll-bar.horizontal");
       },
@@ -601,6 +617,10 @@
 
       minSize: function ($el) {
         return parseInt($el.css("min-height")) || 0;
+      },
+
+      fixedThumbSize: function (options) {
+        return options.fixedThumbHeight;
       },
 
       scrollBar: function ($el) {

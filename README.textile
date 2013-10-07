@@ -81,6 +81,9 @@ There are some options you can pass when initializing scrollbar:
 
 |_. Option |_. Type|_. Default value |_. Description |
 | <code>animationSpeed</code> | <code>Number</code> | <code>300</code> | Speed of the animation of programmatic scrolling. It's possible to edit it with <code>setAnimationSpeed</code> method. Animation speed equal to <code>0</code> means no animation.|
+| <code>fixedThumbHeight</code> | <code>Number</code> | <code>undefined</code> | By default thumb height (in case of vertical scrollbar) is calculated automatically depending on viewport and overview height but you can fix thumb height to your chosen pixel value by setting this option. Make sure to not set <code>min-height</code> in css if you set <code>fixedThumbHeight</code> because <code>min-height</code> has priority.|
+| <code>fixedThumbWidth</code> | <code>Number</code> | <code>undefined</code> | Option analogical to <code>fixedThumbHeight</code> but applied to thumbs of horizontal scrollbar.|
+| <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
 | <code>hScroll</code> | <code>Boolean</code> | <code>true</code> | Indicates whether or not, horizontal scrollbar should be shown when it's necessary. |
 | <code>skin</code>|<code>String</code>|<code>undefined</code>|A css skin class that will be added to the scrolled container. You can define it in html as well as here in options. Note that skin has to be defined in one of those ways.|
 | <code>swipeSpeed</code>|<code>Number</code>|<code>1</code>|Indicates how fast touch scroll should be. When you swipe your finger by <code>x</code> pixels the content will be scrolled by <code>swipeSpeed * x</code> pixels.|

@@ -420,9 +420,9 @@
         thumbPosition = this.positionOrMax(thumbPosition, this.maxThumbPosition);
         var oldScrollPercent = this.scrollPercent;
         this.scrollPercent = thumbPosition / this.maxThumbPosition;
-        var overviewPosition = (thumbPosition * this.maxOverviewPosition) / this.maxThumbPosition;
-        this.setScrollPosition(overviewPosition, thumbPosition);
         if (oldScrollPercent != this.scrollPercent) {
+          var overviewPosition = (thumbPosition * this.maxOverviewPosition) / this.maxThumbPosition;
+          this.setScrollPosition(overviewPosition, thumbPosition);
           this.triggerCustomScroll(oldScrollPercent);
           return true
         }
@@ -447,12 +447,12 @@
         overviewPosition = this.positionOrMax(overviewPosition, this.maxOverviewPosition);
         var oldScrollPercent = this.scrollPercent;
         this.scrollPercent = overviewPosition / this.maxOverviewPosition;
-        var thumbPosition = this.scrollPercent * this.maxThumbPosition;
-        if (animate)
-          this.setScrollPositionWithAnimation(overviewPosition, thumbPosition);
-        else
-          this.setScrollPosition(overviewPosition, thumbPosition);
         if (oldScrollPercent != this.scrollPercent) {
+          var thumbPosition = this.scrollPercent * this.maxThumbPosition;
+          if (animate)
+            this.setScrollPositionWithAnimation(overviewPosition, thumbPosition);
+          else
+            this.setScrollPosition(overviewPosition, thumbPosition);
           this.triggerCustomScroll(oldScrollPercent);
           return true;
         }
@@ -507,11 +507,11 @@
       },
 
       calculateMaxThumbPosition: function () {
-        return this.sizing.size(this.$scrollBar) - this.thumbSize;
+        return Math.max(0, this.sizing.size(this.$scrollBar) - this.thumbSize);
       },
 
       calculateMaxOverviewPosition: function () {
-        return this.sizing.size(this.scrollable.$overview) - this.sizing.size(this.scrollable.$viewPort);
+        return Math.max(0, this.sizing.size(this.scrollable.$overview) - this.sizing.size(this.scrollable.$viewPort));
       },
 
       setScrollEvent: function (event) {

@@ -181,3 +181,7 @@ $(".container").customScrollbar({
   onCustomScroll: function(event, scrollData) {}
 });
 </pre></code>
+
+h2. License
+
+The plugin is released under "MIT license":http://www.opensource.org/licenses/MIT.

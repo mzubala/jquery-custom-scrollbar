@@ -12,7 +12,8 @@
       swipeSpeed: 1,
       wheelSpeed: 40,
       fixedThumbWidth: undefined,
-      fixedThumbHeight: undefined
+      fixedThumbHeight: undefined,
+      preventDefaultScroll: false
     }
 
     var Scrollable = function (element, options) {
@@ -263,10 +264,8 @@
         var _this = this;
         this.scrollable.$element.mousewheel(function (event, delta, deltaX, deltaY) {
           if (_this.enabled) {
-            if (_this.mouseWheelScroll(deltaX, deltaY)) {
-              event.stopPropagation();
-              event.preventDefault();
-            }
+            var scrolled = _this.mouseWheelScroll(deltaX, deltaY);
+            _this.stopEventConditionally(event, scrolled);
           }
         });
       },
@@ -379,11 +378,9 @@
         if (this.touchScrolling && event.touches && event.touches.length == 1) {
           var delta = -this.sizing.mouseDelta(this.scrollEvent, event.touches[0]) * this.scrollable.options.swipeSpeed;
           var scrolled = this.scrollOverviewBy(delta);
-          if (scrolled) {
-            event.stopPropagation();
-            event.preventDefault();
+          if (scrolled)
             this.setScrollEvent(event.touches[0]);
-          }
+          this.stopEventConditionally(event, scrolled);
         }
       },
 
@@ -409,8 +406,8 @@
       keyScroll: function (event) {
         var keyDown = event.which;
         if (this.enabled && this.isKeyScrolling(keyDown)) {
-          if (this.scrollOverviewBy(this.keyScrollDelta(keyDown)))
-            event.preventDefault();
+          var scrolled = this.scrollOverviewBy(this.keyScrollDelta(keyDown));
+          this.stopEventConditionally(event, scrolled);
         }
       },
 
@@ -536,6 +533,13 @@
         this.removeTouchScrolling();
         this.removeMouseClickScrolling();
         this.removeWindowResize();
+      },
+
+      stopEventConditionally: function (event, condition) {
+        if (condition || this.scrollable.options.preventDefaultScroll) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
       }
 
     }

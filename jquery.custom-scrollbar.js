@@ -139,12 +139,12 @@
 
       scrollByX: function (x) {
         if (this.hScrollbar)
-          this.hScrollbar.scrollOverviewBy(x, true);
+          this.hScrollbar.scrollOverviewBy(x);
       },
 
       scrollByY: function (y) {
         if (this.vScrollbar)
-          this.vScrollbar.scrollOverviewBy(y, true);
+          this.vScrollbar.scrollOverviewBy(y);
       },
 
       remove: function () {

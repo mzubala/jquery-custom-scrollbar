@@ -144,7 +144,7 @@ $(".container").customScrollbar("scrollToY", 200)
 
 h3. scrollByX(x)
 
-Moves horizontal scrollbar by <code>x</code> pixels. Rules are the same as for scrollToX.
+Moves horizontal scrollbar by <code>x</code> pixels. <code>x</code> can be positive or negative.
 
 <pre><code>
 $(".container").customScrollbar("scrollByX", 100)
@@ -152,7 +152,7 @@ $(".container").customScrollbar("scrollByX", 100)
 
 h3. scrollByY(y)
 
-Moves vertical scrollbar by <code>y</code> pixels.  Rules are the same as for scrollToY.
+Moves vertical scrollbar by <code>y</code> pixels. <code>y</code> can be positive or negative.
 
 <pre><code>
 $(".container").customScrollbar("scrollByY", 200)

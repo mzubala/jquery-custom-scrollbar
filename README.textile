@@ -142,6 +142,22 @@ Sets vertical scrollbar position to <code>y</code> pixels. <code>x</code> should
 $(".container").customScrollbar("scrollToY", 200)
 </pre></code>
 
+h3. scrollByX(x)
+
+Moves horizontal scrollbar by <code>x</code> pixels. <code>x</code> can be positive or negative.
+
+<pre><code>
+$(".container").customScrollbar("scrollByX", 100)
+</pre></code>
+
+h3. scrollByY(y)
+
+Moves vertical scrollbar by <code>y</code> pixels. <code>y</code> can be positive or negative.
+
+<pre><code>
+$(".container").customScrollbar("scrollByY", 200)
+</pre></code>
+
 h3. resize(keepPosition)
 
 Recalculates and sets sizes of all scrollbar components. Call this whenever your scrolled block changes its size and scrollbar becomes invalid. After you call it scrollbar is adjusted to new sizes of your block.

@@ -132,6 +132,16 @@
           this.vScrollbar.scrollOverviewTo(y, true);
       },
 
+      scrollByX: function (x) {
+        if (this.hScrollbar)
+          this.scrollToX(this.hScrollbar.overviewPosition() + x);
+      },
+
+      scrollByY: function (y) {
+        if (this.vScrollbar)
+            this.scrollToY(this.vScrollbar.overviewPosition() + y);
+      },
+
       remove: function () {
         this.removeScrollableClass();
         this.removeSkinClass();

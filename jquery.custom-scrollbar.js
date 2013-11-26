@@ -132,19 +132,14 @@
           this.vScrollbar.scrollOverviewTo(y, true);
       },
 
-      scrollToXY: function (x, y) {
-        this.scrollByX(x);
-        this.scrollByY(y);
-      },
-
       scrollByX: function (x) {
         if (this.hScrollbar)
-          this.hScrollbar.scrollOverviewBy(x);
+          this.scrollToX(this.hScrollbar.overviewPosition() + x);
       },
 
       scrollByY: function (y) {
         if (this.vScrollbar)
-          this.vScrollbar.scrollOverviewBy(y);
+            this.scrollToY(this.vScrollbar.overviewPosition() + y);
       },
 
       remove: function () {

@@ -14,19 +14,22 @@
         }
 
             /*Horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
-        #horizontal-scrollbar-demo {
+        #horizontal-scrollbar-demo,
+        #relative-horizontal-scrollbar-demo {
             width: 400px;
             height: 200px;
         }
 
             /*Horizontal scrollbar - set width of overview or make it expand horizontal like below*/
-        #horizontal-scrollbar-demo .overview {
+        #horizontal-scrollbar-demo .overview,
+        #relative-horizontal-scrollbar-demo .overview {
             /*width: 1836px;*/
             /* or */
             white-space: nowrap;
         }
 
-        #horizontal-scrollbar-demo img {
+        #horizontal-scrollbar-demo img,
+        #relative-horizontal-scrollbar-demo img {
             height: 180px;
             width: 180px;
         }
@@ -135,6 +138,25 @@
     <button id="scroll-button3">Click to scroll</button>
 </p>
 
+<h2>Relative horizontal scroll</h2>
+
+<div id="relative-horizontal-scrollbar-demo" class="default-skin demo">
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+    <img src="images/lena.png" alt="lena"/>
+</div>
+
+<p>
+    <button id="scroll-button4">&lt;</button>
+    <button id="scroll-button5">&gt;</button>
+</p>
+
 <script type="text/javascript">
     $(window).load(function () {
         $(".demo").customScrollbar();
@@ -146,6 +168,12 @@
         });
         $("#scroll-button3").click(function () {
             $("#vertical-horizontal-scrollbar-demo").customScrollbar("scrollTo", $("#vertical-horizontal-scrollbar-demo strong"));
+        });
+        $("#scroll-button4").click(function () {
+            $("#relative-horizontal-scrollbar-demo").customScrollbar("scrollByX", -200);
+        });
+        $("#scroll-button5").click(function () {
+            $("#relative-horizontal-scrollbar-demo").customScrollbar("scrollByX", 200);
         });
     });
 </script>

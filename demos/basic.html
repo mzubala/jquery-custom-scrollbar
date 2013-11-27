@@ -7,19 +7,19 @@
     <link type="text/css" rel="stylesheet" href="../jquery.custom-scrollbar.css"/>
     <style type="text/css">
 
-            /*Vertical scrollbar - set width and height of a div you want to add a scrollbar to*/
+        /*Vertical scrollbar - set width and height of a div you want to add a scrollbar to*/
         #vertical-scrollbar-demo {
             height: 100px;
             width: 400px;
         }
 
-            /*Horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
+        /*Horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
         #horizontal-scrollbar-demo {
             width: 400px;
             height: 200px;
         }
 
-            /*Horizontal scrollbar - set width of overview or make it expand horizontal like below*/
+        /*Horizontal scrollbar - set width of overview or make it expand horizontal like below*/
         #horizontal-scrollbar-demo .overview {
             /*width: 1836px;*/
             /* or */
@@ -31,7 +31,7 @@
             width: 180px;
         }
 
-            /*Vertical and horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
+        /*Vertical and horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
         #vertical-horizontal-scrollbar-demo {
             width: 400px;
             height: 200px;
@@ -41,18 +41,18 @@
             width: 600px;
         }
 
-            /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
+        /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
         #min-thumb-size-demo .overview {
             width: 600px;
         }
 
-            /*Vertical and horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
+        /*Vertical and horizontal scrollbar - set width and height of a div you want to add a scrollbar to*/
         #min-thumb-size-demo {
             width: 400px;
             height: 200px;
         }
 
-            /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
+        /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
         #min-thumb-size-demo .overview {
             width: 600px;
         }
@@ -70,9 +70,15 @@
             height: 200px;
         }
 
-            /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
+        /* Vertical and horizontal scrollbar - one extra step required - add width of overview - overall width of scrolled content*/
         #fixed-thumb-size-demo .overview {
             width: 600px;
+        }
+
+        /*No scrollbar needed*/
+        #no-scrollbar-needed {
+            max-height: 100px;
+            max-width: 400px;
         }
 
     </style>
@@ -200,6 +206,16 @@
     nisi. Praesent sodales velit quis augue. Cras suscipit, urna at aliquam rhoncus, urna quam viverra nisi,
     in
     interdum massa nibh nec erat.
+</div>
+
+<h2>No scrollbar needed</h2>
+
+<h3>When the content is short enough to fit the container, the scrollbar won't appear.</h3>
+
+<!-- Add a skin class to the scrolled div: default-skin in this case -->
+<div id="no-scrollbar-needed" class="default-skin demo">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Proin nibh augue, suscipit a, scelerisque sed,
+    lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam.
 </div>
 
 <script type="text/javascript">

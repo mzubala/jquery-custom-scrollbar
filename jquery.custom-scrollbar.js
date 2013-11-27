@@ -139,7 +139,7 @@
 
       scrollByY: function (y) {
         if (this.vScrollbar)
-            this.scrollToY(this.vScrollbar.overviewPosition() + y);
+          this.scrollToY(this.vScrollbar.overviewPosition() + y);
       },
 
       remove: function () {
@@ -216,9 +216,9 @@
 
       resize: function (keepPosition) {
         this.scrollable.$viewPort.height(this.scrollable.$element.height());
-        this.sizing.size(this.scrollable.$viewPort, this.sizing.size(this.scrollable.$element));
-        this.viewPortSize = this.sizing.size(this.scrollable.$viewPort);
         this.overviewSize = this.sizing.size(this.scrollable.$overview);
+        this.viewPortSize = this.calculateViewPortSize();
+        this.sizing.size(this.scrollable.$viewPort, this.viewPortSize);
         this.ratio = this.viewPortSize / this.overviewSize;
         this.sizing.size(this.$scrollBar, this.viewPortSize);
         this.thumbSize = this.calculateThumbSize();
@@ -233,6 +233,16 @@
         else
           this.setScrollPosition(0, 0);
         this.$scrollBar.toggle(this.enabled);
+      },
+
+      calculateViewPortSize: function () {
+        var elementSize = this.sizing.size(this.scrollable.$element);
+        if (elementSize > 0)
+          return elementSize;
+        else {
+          var maxSize = this.sizing.maxSize(this.scrollable.$element);
+          return Math.min(maxSize, this.overviewSize);
+        }
       },
 
       calculateThumbSize: function () {
@@ -569,6 +579,10 @@
         return parseInt($el.css("min-width")) || 0;
       },
 
+      maxSize: function ($el) {
+        return parseInt($el.css("max-width")) || 0;
+      },
+
       fixedThumbSize: function (options) {
         return options.fixedThumbWidth;
       },
@@ -631,6 +645,10 @@
 
       minSize: function ($el) {
         return parseInt($el.css("min-height")) || 0;
+      },
+
+      maxSize: function ($el) {
+        return parseInt($el.css("max-height")) || 0;
       },
 
       fixedThumbSize: function (options) {

@@ -215,9 +215,8 @@
     Scrollbar.prototype = {
 
       resize: function (keepPosition) {
-        this.scrollable.$viewPort.height(this.scrollable.$element.height());
         this.overviewSize = this.sizing.size(this.scrollable.$overview);
-        this.viewPortSize = this.calculateViewPortSize();
+        this.calculateViewPortSize();
         this.sizing.size(this.scrollable.$viewPort, this.viewPortSize);
         this.ratio = this.viewPortSize / this.overviewSize;
         this.sizing.size(this.$scrollBar, this.viewPortSize);
@@ -237,11 +236,14 @@
 
       calculateViewPortSize: function () {
         var elementSize = this.sizing.size(this.scrollable.$element);
-        if (elementSize > 0)
-          return elementSize;
+        if (elementSize > 0 && !this.maxSizeUsed) {
+          this.viewPortSize = elementSize;
+          this.maxSizeUsed = false;
+        }
         else {
           var maxSize = this.sizing.maxSize(this.scrollable.$element);
-          return Math.min(maxSize, this.overviewSize);
+          this.viewPortSize = Math.min(maxSize, this.overviewSize);
+          this.maxSizeUsed = true;
         }
       },
 

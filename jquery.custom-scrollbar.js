@@ -362,15 +362,16 @@
 
       startMouseMoveScrolling: function (event) {
         this.mouseMoveScrolling = true;
-        $("html").addClass("not-selectable");
-        this.setUnselectable($("html"), "on");
+        $("body").addClass("not-selectable");
+        this.setUnselectable($("body"), "on");
         this.setScrollEvent(event);
+        event.preventDefault();
       },
 
       stopMouseMoveScrolling: function (event) {
         this.mouseMoveScrolling = false;
-        $("html").removeClass("not-selectable");
-        this.setUnselectable($("html"), null);
+        $("body").removeClass("not-selectable");
+        this.setUnselectable($("body"), null);
       },
 
       setUnselectable: function (element, value) {

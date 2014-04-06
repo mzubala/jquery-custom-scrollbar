@@ -307,7 +307,7 @@
           this.documentTouchmove = function (event) {
             _this.touchScroll(event);
           }
-          document.addEventListener("touchmove", this.documentTouchmove);
+          this.scrollable.$element[0].addEventListener("touchmove", this.documentTouchmove);
           this.elementTouchend = function (event) {
             _this.stopTouchScrolling(event);
           }

@@ -45,13 +45,17 @@
   left: 0;
 }
 
-.not-selectable {
+/** Restrict to Body to prevent conflicts with existing not-selectable classes on web pages. */
+body.not-selectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  /* Suppresses all hover, and focus events. */
+  pointer-events: none;
 }
 
 /*Default skin*/
@@ -77,7 +81,8 @@
   -webkit-border-radius: 4px;
 }
 
-.scrollable.default-skin .scroll-bar:hover .thumb {
+.scrollable.default-skin .scroll-bar:hover .thumb,
+.scrollable.default-skin.scrolling .scroll-bar .thumb {
   opacity: 0.6;
 }
 
@@ -96,7 +101,8 @@
   background-color: gray;
 }
 
-.scrollable.gray-skin .scroll-bar:hover .thumb {
+.scrollable.gray-skin .scroll-bar:hover .thumb
+.scrollable.gray-skin.scrolling .scroll-bar .thumb {
   background-color: black;
 }
 

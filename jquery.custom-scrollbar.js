@@ -361,24 +361,17 @@
       },
 
       startMouseMoveScrolling: function (event) {
+        this.scrollable.$element.addClass('scrolling');
         this.mouseMoveScrolling = true;
         $("body").addClass("not-selectable");
-        this.setUnselectable($("body"), "on");
         this.setScrollEvent(event);
         event.preventDefault();
       },
 
       stopMouseMoveScrolling: function (event) {
+        this.scrollable.$element.removeClass('scrolling');
         this.mouseMoveScrolling = false;
         $("body").removeClass("not-selectable");
-        this.setUnselectable($("body"), null);
-      },
-
-      setUnselectable: function (element, value) {
-        if (element.attr("unselectable") != value) {
-          element.attr("unselectable", value);
-          element.find(':not(input)').attr('unselectable', value);
-        }
       },
 
       mouseMoveScroll: function (event) {

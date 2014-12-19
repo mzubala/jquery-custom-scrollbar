@@ -54,7 +54,10 @@ body.not-selectable {
   -ms-user-select: none;
   user-select: none;
 
-  /* Suppresses all hover, and focus events. */
+  /**
+   * Suppresses all hover, and focus events.
+   * Supports Firefox 3.6+, Chrome 4+, IE 11+, Safari 4+, and Opera 15+
+   */
   pointer-events: none;
 }
 

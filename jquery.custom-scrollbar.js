@@ -78,9 +78,9 @@
         this.removeScrollbar("vertical");
         this.removeScrollbar("horizontal");
         if (this.overviewAdded)
-          this.$element.unwrap();
+          this.$overview.replaceWith(this.$overview.contents());
         if (this.viewPortAdded)
-          this.$element.unwrap();
+          this.$viewPort.replaceWith(this.$viewPort.contents());
       },
 
       removeScrollbar: function (orientation) {
